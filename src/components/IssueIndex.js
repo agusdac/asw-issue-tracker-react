@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 export class IssueIndex extends Component {
     
@@ -39,7 +40,7 @@ export class IssueIndex extends Component {
             <tbody>
                 { this.state.issues.map(issue => 
                 <tr>
-                    <td>{issue.title}</td>
+                    <td><Link to={`/issue/${issue.id}`}>#{issue.id} {issue.title}</Link></td>
                     <td>{issue.kind}</td>
                     <td>{issue.priority}</td>
                     <td>{issue.status}</td>
