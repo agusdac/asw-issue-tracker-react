@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 export class Issue extends Component {
 
@@ -16,6 +17,10 @@ export class Issue extends Component {
       })
   }
 
+  handleSubmit(event){
+
+  }
+
   render() {
     return (
       <div>
@@ -26,6 +31,15 @@ export class Issue extends Component {
         <p>Kind: {this.state.issue.kind}</p>
         <p>Priority: {this.state.issue.priority}</p>
         <p>Status: {this.state.issue.status}</p>
+        <hr></hr>
+        <p>Comments ({undefined !== this.state.issue.comments ? this.state.issue.comments.length : 0})</p>
+        {undefined !== this.state.issue.comments ? this.state.issue.comments.reverse().map(comment =>
+          <p>{comment.content} - {moment(comment.created_at).fromNow()}</p>
+        ) : null}
+        <form onSubmit={this.handleSubmit}>
+            <textarea/>
+          <input type="submit" value="Send" />
+        </form>
       </div>
     )
   }
