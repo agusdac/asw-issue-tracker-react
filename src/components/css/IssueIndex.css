@@ -66,6 +66,7 @@
       flex-wrap: wrap;
       align-items: center;
       float: none;
+      margin-top: 0px;
       margin-bottom: 0;
   }
   
@@ -272,8 +273,17 @@
       height: 16px;
   }
   
+  .index {
+    font-family: sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.42857142857143;
+  }
+
   .body {
     margin-left: 220px;
+    color: #172B4D;
   }
   
   :any-link {
@@ -305,10 +315,18 @@
   
   }
   
+  .header {
+    box-sizing: border-box;
+    display: border;
+  }
+
   .table_body {
           margin-left: -24px;
           width:100%;
-  
+          color: #666;
+          border-top: 4px solid transparent;
+          border-bottom: 4px solid transparent;
+          text-align: center;
   }
   
   .clearfix::after {

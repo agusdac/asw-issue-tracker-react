@@ -69,20 +69,22 @@ export class IssueIndex extends Component {
           </p>
         </div>
         <div className = "body">
-          <div className = "filter-container">
-            <p className = "filter-label">
-              Filter by: 
-            </p>
-            <ul className = "filter-status">
-              <li className = "filter" aria_pressed = "true"> <Link to={'/'} onClick = {()=> this.iniIssues()}> All </Link></li>
-              <li className = "filter"> <Link to={'/'} onClick = {()=> this.filter("status", "open")}> Open </Link> </li>
-              <li className = "filter"> <Link to={'/'}> My Issues </Link></li>
-              <li className = "filter"> <Link to={'/'}> Watching </Link></li>
-            </ul>
+          <div className = "header">
+            <div className = "filter-container">
+              <p className = "filter-label">
+                Filter by: 
+              </p>
+              <ul className = "filter-status">
+                <li className = "filter" aria_pressed = "true"> <Link to={'/'} onClick = {()=> this.iniIssues()}> All </Link></li>
+                <li className = "filter"> <Link to={'/'} onClick = {()=> this.filter("status", "open")}> Open </Link> </li>
+                <li className = "filter"> <Link to={'/'}> My Issues </Link></li>
+                <li className = "filter"> <Link to={'/'}> Watching </Link></li>
+              </ul>
+            </div>
+            <h1>
+              Issues({this.state.issues.length})
+            </h1>
           </div>
-          <h1>
-            ISSUES({this.state.issues.length})
-          </h1>
           <p>
             <table className = "table">
               <thead className = "table_header">
@@ -114,7 +116,7 @@ export class IssueIndex extends Component {
               <tbody className = "table_body">
                 { this.state.issues.map(issue => 
                 <tr>
-                    <td><Link to={`/issue/${issue.id}`}>#{issue.id} {issue.title}</Link></td>
+                    <td><Link to={`/issue/${issue.id}`}>#{issue.id}: {issue.title}</Link></td>
                     <td onClick = {() => this.filter("kind", issue.kind)}>{issue.kind}</td>
                     <td onClick = {() => this.filter("priority", issue.priority)}>{issue.priority}</td>
                     <td className = "status" onClick = {() => this.filter("status", issue.status)}>{issue.status}</td>
