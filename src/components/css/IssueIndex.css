@@ -1,66 +1,377 @@
-.index {
-    box-sizing: border-box;
-    display: block;
-}
+ .perfil_image {
+    border-radius: 50%;
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+  
+  .perfil_image_table {
+    border-radius: 50%;
+    max-width: 10%;  
+  }
+  
+  #perfil_name {
+    margin-top: 8px;
+    margin-left: 16px;
+  }
+  
+  #pruebaF {
+    color: #FFF;
+  }
+  .table {
+       text-align:center;
+       border-spacing: 2px;
+       border-color: #ccc;
+       border-collapse: collapse;
+       width: 100%;
+       margin-bottom: 1rem;
+       color: #212529;
+  }
+  
+  #vote {
+      border-radius: 2em;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: .99;
+      min-height: 1em;
+      min-width: 1em;
+      padding: 3px 5px 2px;
+      position: relative;
+      text-shadow: none;
+      display: inline-block;
+      margin: 0;
+      text-decoration: none;
+      text-align: center;
+      text-transform: uppercase;
+      background-color: #326ca6;
+      color: #fff;
+  }
+  
+  
+  
+  #leyendaTR:first-child{ border-bottom: 1px solid #555;}
+  
+  tr {
+      border-top:4px solid transparent;
+      border-bottom:4px solid transparent;
+      text-align: center;
+  }
+  
+  tr:hover {
+      background-color: #ccc;
+      border-color: #ccc;
+  }
+  
+  .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      float: none;
+      margin-bottom: 0;
+  }
+  
+  .filter-status {
+      font-size: 13px;
+      line-height: 18px;
+      float: none;
+      margin-bottom: 8px;
+      margin-right: 8px;
+      list-style: none;
+  }
+  
+  .status {
+      font-size: 11px;
+      font-weight: 700;
+      margin: 0;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+      cursor: pointer;
+      background-color: transparent;
+  }
+  
+  .sort {
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 2px;
+  }
 
-.sidebar {
+  #status-prueba-span {
+      
+  }
+  
+  
+  .filter {
+      display: inline;
+      border: none;
+      box-sizing: border-box;
+      margin-right: 4px;
+      height: 32px;
+      min-width: 24px;
+      border-radius: 3px;
+      text-shadow: none;
+      padding: 4px 10px;
+      background: 0 0;
+      line-height: 1.57142857em;
+      text-decoration: none;
+      color: #505F79;
+      padding: 10px;
+  }
+  
+  .filter:hover {
+      background-color: #e6ecf7;
+  }
+  
+  .filter[aria_pressed=true]{
+      background-color: #505F79;
+      color: #FFFFFF;
+  }
+  
+  [laria_pressed=true]{
+      color: #FFFFFF;
+  }
+  
+  #newIssue {
+    text-decoration: none;
+    background-color: #e6ecf7;
+    color: #505F79;
+    padding: 10px;
+    border-radius:5px;
+    }
+  
+  #newIssue:hover {
+      cursor: pointer;
+      border-color: #3e7ae8;
+      border: 1px;
+  }
+  
+  #status-new {
+      color: #59697a;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 99%;
+      margin: 0;
+      padding: 2px 5px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+      vertical-align: middle;
+  }
+  
+  #status-open {
+      color: #59697a;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 99%;
+      margin: 0;
+      padding: 2px 5px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+          vertical-align: middle;
+  
+  }
+  
+  #status-on_hold {
+      color: #edb81e;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 99%;
+      margin: 0;
+      padding: 2px 5px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+          vertical-align: middle;
+  
+  }
+  
+  #status-duplicate {
+      color: #d66e17;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 99%;
+      margin: 0;
+      padding: 2px 5px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+          vertical-align: middle;
+  
+  }
+  
+  #status-invalid {
+      color: #d12f1f;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 99%;
+      margin: 0;
+      padding: 2px 5px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+          vertical-align: middle;
+  
+  }
+  
+  #status-wontfix {
+      color: #d12f1f;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 99%;
+      margin: 0;
+      padding: 2px 5px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+          vertical-align: middle;
+  
+  }
+  
+  #status-closed {
+      color: #000;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 99%;
+      margin: 0;
+      padding: 2px 5px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+          vertical-align: middle;
+  
+  }
+  
+  #status-resolved {
+      color: #51965f;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 99%;
+      margin: 0;
+      padding: 2px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+      vertical-align: middle;
+  }
+  
+  #watch {
+      overflow: hidden;
+      text-indent: -9999px;
+      background-size: 16px;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      display: inline-block;
+      margin-top: 1px;
+      width: 16px;
+      height: 16px;
+  }
+  
+  .body {
+    margin-left: 220px;
+  }
+  
+  :any-link {
+      text-decoration:none;
+      color: inherit;
+  }
+  :any-link:hover {
+      background:transparent;
+      color: inherit;
+  }
+  
+  .issues .issues-toolbar {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex-wrap: wrap;
+  }
+  
+  .leyenda {
+      margin-bottom: 16px;
+      text-align: center;
+      margin-right: 200px;
+  }
+  
+  .table_header {
+      margin-left: -24px;
+      width: 100%;
+  
+  }
+  
+  .table_body {
+          margin-left: -24px;
+          width:100%;
+  
+  }
+  
+  .clearfix::after {
+      clear: both;
+      content: '';
+      display: block;
+      height: 0;
+      visibility: hidden;
+  }
+  
+  .sidebar {
+    
     width: 200px;
     background-color: #f1f1f1;
     position: fixed;
     height: 100%;
     overflow: auto;
-}
-
-.body {
-    margin-left: 220px;
-}
-
-.filter-status {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    float: none;
-    margin-bottom: 0;
-}
-
-.filter-label {
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
-
-.filter-container {
-    font-weight: bold;
-    font-size: 13px;
-    line-height: 18px;
-    float: none;
-    margin-bottom: 8px;
-    margin-right: 8px;
-    list-style: none;
-}
-
-.filter {
-    display: inline;
-    border: none;
-    box-sizing: border-box;
-    margin-right: 4px;
-    height: 32px;
-    min-width: 24px;
-    border-radius: 3px;
-    text-shadow: none;
-    padding: 4px 10px;
-    background: 0 0;
-    line-height: 1.57142857em;
+  
+  }
+  
+  /* Sidebar links */
+  .sidebar a {
+    display: block;
+    color: black;
+    padding: 16px;
     text-decoration: none;
-    color: #505F79;
-    padding: 10px;
-}
-
-.table {
-    text-align: center;
-    border-spacing: 2px;
-    border-color: #ccc;
-    border-collapse: collapse;
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-}
+  }
+  
+  /* Active/current link */
+  .sidebar a.active {
+    background-color: #dce3ef;
+    color: #175ac6;
+  }
+  
+  /* Links on mouse-over */
+  .sidebar a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+  }
+  
+  /* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+  div.content {
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 1000px;
+  }
+  
+  /* On screens that are less than 700px wide, make the sidebar into a topbar */
+  @media screen and (max-width: 700px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+    .sidebar a {float: left;}
+    div.content {margin-left: 0;}
+  }
+  
+  /* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+  @media screen and (max-width: 400px) {
+    .sidebar a {
+      text-align: center;
+      float: none;
+    }
+  } 
+  
