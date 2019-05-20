@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 export class Issue extends Component {

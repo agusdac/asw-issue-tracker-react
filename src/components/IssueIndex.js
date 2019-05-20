@@ -13,9 +13,26 @@ export class IssueIndex extends Component {
       axios.get("https://issue-tracker-asw-ruby.herokuapp.com/issues.json")
         .then(res => {
           const issues = res.data;
-          alert(JSON.stringify(res.data))
+          // alert(JSON.stringify(res.data[0].votes.length))
           this.setState({ issues });
         })
+    }
+
+    checkassignee(issue) {
+      if(issue.assignee) {
+        return (
+          <td>{issue.assignee.name}</td>
+        )
+      }
+      else {
+        return (<td></td>)
+      }
+    }
+
+    countVotes(issue) {
+      if(issue.votes) {
+        
+      }
     }
 
     render() {
@@ -23,7 +40,7 @@ export class IssueIndex extends Component {
     return (
       <div>
         <p>
-          ISSUES(*)
+          ISSUES({this.state.issues.length})
         </p>
         <p>
           <table >
@@ -44,8 +61,8 @@ export class IssueIndex extends Component {
                     <td>{issue.kind}</td>
                     <td>{issue.priority}</td>
                     <td>{issue.status}</td>
-                    <td>{issue.votes.count}</td>
-                    <td>issue.assignee.name</td>
+                    <td>{issue.votes.length}</td>
+                    {this.checkassignee(issue)}
                     <td>{moment(issue.created_at).fromNow()}</td>
                     <td>{moment(issue.updated_at).fromNow()}</td>
                 </tr>
