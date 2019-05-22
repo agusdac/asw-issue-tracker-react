@@ -84,6 +84,9 @@ export class IssueIndex extends Component {
             <h1>
               Issues({this.state.issues.length})
             </h1>
+            <span id = "create_issue">
+              <Link to={'/issues/create'}> Create Issue</Link>
+            </span>
           </div>
           <p>
             <table className = "table">
