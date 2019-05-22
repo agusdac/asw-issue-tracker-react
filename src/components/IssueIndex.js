@@ -6,6 +6,17 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import "./css/IssueIndex.css"
 import Sidebar from './Sidebar';
+//import de fotos
+import blocker from '../images/blocker.svg';
+import bug from '../images/bug.svg';
+import critical from '../images/critical.svg';
+import enhancement from '../images/enhancement.svg';
+import major from '../images/major.svg';
+import minor from '../images/minor.svg';
+import proposal from '../images/proposal.svg';
+import task from '../images/task.svg';
+import trivial from '../images/trivial.svg';
+
 export class IssueIndex extends Component {
     
     state = {
@@ -42,7 +53,7 @@ export class IssueIndex extends Component {
     checkassignee(issue) {
       if(issue.assignee) {
         return (
-          <td style= {{verticalAlign:"middle"}} onClick = {() => this.filter("assignee_id", issue.assignee.id)}>
+          <td className = "kind" style= {{verticalAlign:"middle"}} onClick = {() => this.filter("assignee_id", issue.assignee.id)}>
             <img class="perfil_image_table" src = {issue.assignee.imageurl} alt = "user" />{issue.assignee.name}</td>
         )
       }
@@ -57,6 +68,22 @@ export class IssueIndex extends Component {
           const issues = res.data;
           this.setState({ issues });
         })
+    }
+
+    getImage(param) {
+      var source;
+      if (param === 'blocker') source = blocker;
+      else if (param === 'bug') source = bug;
+      else if (param === 'critical') source = critical;
+      else if (param === 'enhancement') source = enhancement;
+      else if (param === 'major') source = major;
+      else if (param === 'minor') source = minor;
+      else if (param === 'proposal') source = proposal;
+      else if (param === 'task') source = task;
+      else source = trivial;
+      return (
+        <img src = {source} alt = {param}/>
+      )
     }
 
     render() {
@@ -117,8 +144,8 @@ export class IssueIndex extends Component {
                 { this.state.issues.map(issue => 
                 <tr>
                     <td><Link to={`/issue/${issue.id}`}>#{issue.id}: {issue.title}</Link></td>
-                    <td onClick = {() => this.filter("kind", issue.kind)}>{issue.kind}</td>
-                    <td onClick = {() => this.filter("priority", issue.priority)}>{issue.priority}</td>
+                    <td className = "kind" onClick = {() => this.filter("kind", issue.kind)}>{this.getImage(issue.kind)}</td>
+                    <td className = "kind" onClick = {() => this.filter("priority", issue.priority)}>{this.getImage(issue.priority)}</td>
                     <td className = "status" onClick = {() => this.filter("status", issue.status)}>{issue.status}</td>
                     {issue.votes.length === 0 ? <td></td> : <td id = "vote">{issue.votes.length}</td>}
                     {this.checkassignee(issue)}
