@@ -24,9 +24,12 @@ export class CreateIssue extends Component {
     return (
       <div>
         <Link to="/">Home</Link>
+        {/*
         <h1></h1>
         <p></p>
         <hr></hr>
+        */}
+        
         <p>Kind: </p>
         <p>Priority: </p>
         <p>Status: </p>
@@ -35,4 +38,4 @@ export class CreateIssue extends Component {
   }
 }
 
-export default Issue
+export default CreateIssue

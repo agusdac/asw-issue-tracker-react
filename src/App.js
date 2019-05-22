@@ -2,6 +2,7 @@ import React from 'react';
 import IssueIndex from './components/IssueIndex';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Issue from './components/pages/Issue';
+import CreateIssue from './components/pages/CreateIssue'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           </React.Fragment>
         )}/>
         <Route path="/issue/:id" component={Issue} />
+        <Route path="/issues/new" component={CreateIssue} />
       </div>
     </Router>
   );
