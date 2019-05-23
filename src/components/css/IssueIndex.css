@@ -15,7 +15,7 @@
   }
   
   #pruebaF {
-    color: #FFF;
+    color: rgb(230, 210, 210);
   }
   .table {
        text-align:center;
@@ -67,7 +67,7 @@
       align-items: center;
       float: none;
       margin-top: 0px;
-      margin-bottom: 0;
+      margin-bottom: 0px;
   }
   
   .filter-status {
@@ -81,6 +81,7 @@
   
   .kind {
       cursor: pointer;
+      vertical-align:middle;
   }
   .status {
       font-size: 11px;
@@ -98,18 +99,12 @@
     margin-left: 5px;
     margin-right: 2px;
   }
-
-  #status-prueba-span {
-      
-  }
-  
   
   .filter {
       display: inline;
       border: none;
       box-sizing: border-box;
       margin-right: 4px;
-      height: 32px;
       min-width: 24px;
       border-radius: 3px;
       text-shadow: none;
@@ -125,7 +120,7 @@
       background-color: #e6ecf7;
   }
   
-  .filter[aria_pressed=true]{
+  .filter[aria-pressed=true]{
       background-color: #505F79;
       color: #FFFFFF;
   }
@@ -274,6 +269,7 @@
       margin-top: 1px;
       width: 16px;
       height: 16px;
+      cursor: pointer;
   }
   
   .index {
@@ -287,6 +283,7 @@
   .body {
     margin-left: 220px;
     color: #172B4D;
+    margin-top: 0px,
   }
   
   :any-link {
@@ -321,6 +318,7 @@
   .header {
     box-sizing: border-box;
     display: border;
+    margin-top: 0%,
   }
 
   .table_body {
@@ -337,6 +335,13 @@
           border-top: 1px solid #dee2e6;
   }
   
+  .issuetitle {
+      text-align: left;
+  }
+
+  .fullTitle {
+    font-size: 2.5rem;
+  }
   .clearfix::after {
       clear: both;
       content: '';

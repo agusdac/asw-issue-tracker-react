@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Button} from 'react-bootstrap';
 
 import axios from 'axios';
 import moment from 'moment';
@@ -16,14 +15,21 @@ import minor from '../images/minor.svg';
 import proposal from '../images/proposal.svg';
 import task from '../images/task.svg';
 import trivial from '../images/trivial.svg';
+import unwatch from '../images/unwatch.svg';
+import watch from '../images/watch.svg';
 
 export class IssueIndex extends Component {
     
     state = {
       issues: [],
-      initialIssues: []
+      initialIssues: [],
+      logged: true,
     }
   
+    signIn() {
+      this.setState({logged: true})
+    }
+
     getAll() {
       axios.get("https://issue-tracker-asw-ruby.herokuapp.com/issues.json")
         .then(res => {
@@ -50,11 +56,27 @@ export class IssueIndex extends Component {
         })
     }
 
+    myIssues() {
+      axios.get("https://issue-tracker-asw-ruby.herokuapp.com/issues.json?user_id=m")
+        .then(res => {
+          const issues = res.data;
+          this.setState({ issues });
+        })
+    }
+    
+    watching() {
+      axios.get("https://issue-tracker-asw-ruby.herokuapp.com/issues.json?user_id=w")
+        .then(res => {
+          const issues = res.data;
+          this.setState({ issues });
+        })
+    }
+
     checkassignee(issue) {
       if(issue.assignee) {
         return (
-          <td className = "kind" style= {{verticalAlign:"middle"}} onClick = {() => this.filter("assignee_id", issue.assignee.id)}>
-            <img class="perfil_image_table" src = {issue.assignee.imageurl} alt = "user" />{issue.assignee.name}</td>
+          <td className = "kind"onClick = {() => this.filter("assignee_id", issue.assignee.id)}>
+            <img className="perfil_image_table" src = {issue.assignee.imageurl} alt = "user" />{issue.assignee.name}</td>
         )
       }
       else {
@@ -86,6 +108,41 @@ export class IssueIndex extends Component {
       )
     }
 
+    changeColor(element) {
+        // Check to see if the button is pressed
+        var pressed = (element.target.getAttribute("aria_pressed") === "true");
+        // Change aria-pressed to the opposite state
+        element.target.setAttribute("aria_pressed", !pressed);
+      }
+
+    watchIssue(id) {
+
+    }
+
+    unwatchIssue(id) {
+
+    }
+
+    checkWatching(issue) {
+      var amI;
+      if (issue.watches.length === 0) amI = false;
+      issue.watches.forEach((watch) => {
+          if (watch.user_id === 1) amI = true;
+        }
+      )
+      
+      if(!amI) {
+        return (
+          <td>{<img id = "watch" src = {watch} alt = "Watch" onClick = {() => this.watchIssue(issue.id)}/>}</td>
+        )
+      }
+      else {
+        return (
+          <td>{<img id = "watch" src = {unwatch} alt = "Unwatch" onClick = {() => this.unwatchIssue(issue.id)}/>}</td>
+        )
+      }
+    }
+
     render() {
       
     return (
@@ -102,13 +159,15 @@ export class IssueIndex extends Component {
                 Filter by: 
               </p>
               <ul className = "filter-status">
-                <li className = "filter" aria_pressed = "true"> <Link to={'/'} onClick = {()=> this.iniIssues()}> All </Link></li>
+                <li className = "filter"> <Link to={'/'} onClick = {()=> this.iniIssues()}> All </Link></li>
                 <li className = "filter"> <Link to={'/'} onClick = {()=> this.filter("status", "open")}> Open </Link> </li>
-                <li className = "filter"> <Link to={'/'}> My Issues </Link></li>
-                <li className = "filter"> <Link to={'/'}> Watching </Link></li>
+                {this.state.logged ? <li className = "filter"> <Link to={'/'} onClick = {()=> this.myIssues()}> My Issues </Link></li> 
+                :<td></td>}
+                {this.state.logged ? <li className = "filter"> <Link to={'/'} onClick = {()=> this.watching()}> Watching </Link></li>
+                :<td></td>}
               </ul>
             </div>
-            <h1>
+            <h1 className = "fullTitle">
               Issues({this.state.issues.length})
             </h1>
           </div>
@@ -143,7 +202,7 @@ export class IssueIndex extends Component {
               <tbody className = "table_body">
                 { this.state.issues.map(issue => 
                 <tr>
-                    <td><Link to={`/issue/${issue.id}`}>#{issue.id}: {issue.title}</Link></td>
+                    <td className = "issuetitle"><Link to={`/issue/${issue.id}`}>#{issue.id}: {issue.title}</Link></td>
                     <td className = "kind" onClick = {() => this.filter("kind", issue.kind)}>{this.getImage(issue.kind)}</td>
                     <td className = "kind" onClick = {() => this.filter("priority", issue.priority)}>{this.getImage(issue.priority)}</td>
                     <td className = "status" onClick = {() => this.filter("status", issue.status)}>{issue.status}</td>
@@ -151,7 +210,8 @@ export class IssueIndex extends Component {
                     {this.checkassignee(issue)}
                     <td>{moment(issue.created_at).fromNow()}</td>
                     <td>{moment(issue.updated_at).fromNow()}</td>
-                    <td><Button>Watch</Button></td>
+                    {this.state.logged ? this.checkWatching(issue)
+                    : <td></td>}
                 </tr>
                 )}
             </tbody>
