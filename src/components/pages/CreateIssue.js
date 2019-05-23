@@ -1,38 +1,130 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Sidebar from '../Sidebar';
+
 
 export class CreateIssue extends Component {
-
-  state = {
-    issue:{}
+  constructor() {
+    super();
+    this.state = {
+      title: '',
+      description: '',
+      kind:'',
+      priority:'',
+      asignee:'',
+  
+    }
   }
+  
 
-  CreateIssue() {
-    axios.post(`https://issue-tracker-asw-ruby.herokuapp.com/issues/`)
+  createIssue() {
+    console.log(this.state.title);
+    var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
+    axios.post(url, {
+      title: this.state.title,
+      description: this.state.description,
+      asignee_id: this.state.assignee,
+      kind: this.state.kind,
+      priority: this.state.priority,
+    }, {
+      headers: {
+        "accept":"*/*",
+        "tokenGoogle":"ya29.Gl0JB3hpwEwV6h-9Gntzfnl9DixwdK6-pw4GzCpvSNbLH2Y6cqDIOfxGKwFUGJXy0iZp94eMCjTILWc4BRf2Bwn1B4LH0qtWhH45OR-IIpVbNAlS1rREeKGoG3vLcKI",
+        "Content-Type":"application/json"
+      }
+    } )
+    // axios({
+    //   method: 'post',
+    //   url: 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json',
+    //   data: {
+    //     title: this.state.title,
+    //     description: this.state.description,
+    //     kind: this.state.kind,
+    //     priority: this.state.priority,
+    //     asignee: this.state.assignee,
+    //   }
+    // });
+    //axios.post(`https://issue-tracker-asw-ruby.herokuapp.com/issues/`)
     /*.then(res => {
       const issue = res.data;
       this.setState({ issue });
     })*/
   }
 
+  test() {
+    console.log("why isnt this working")
+  }
+
   componentDidMount() {
     
   }
 
+  handleTitle(event) {
+    this.setState({title: event.target.value})
+  }  
+  handleDescription(event) {
+    this.setState({description: event.target.value})
+  }  
+  handleKind(event) {
+    this.setState({kind: event.target.value})
+  }  
+  handlePriority(event) {
+    this.setState({priority: event.target.value})
+  }
+  handleAssignee(event) {
+    this.setState({asignee: event.target.value})
+  }
+
   render() {
     return (
-      <div>
-        <Link to="/">Home</Link>
-        {/*
-        <h1></h1>
-        <p></p>
-        <hr></hr>
-        */}
-        
-        <p>Kind: </p>
-        <p>Priority: </p>
-        <p>Status: </p>
+      <div className = "index">
+        <div className = "sidebar">
+          <p>
+            <Sidebar />
+          </p>
+        </div>
+        <div className = "body">
+          <div className = "header">
+            <h1>
+              Create a new Issue
+            </h1>
+          </div>
+          <p>
+            <div className="row">
+              <label for="issue_title">Title </label>
+              <input id="issue_title" class="form-control" type="text" name="title" value={this.state.title} 
+              onChange={this.handleTitle.bind(this)}/>
+            </div>
+            <div className="row">
+              <label for="issue_description">Description </label>
+              <input id="issue_description" class="form-control" type="text" name="description" value={this.state.description} 
+              onChange={this.handleDescription.bind(this)}/>
+            </div>
+            <div className="row">
+              <label for="issue_kind">Kind </label>
+              <input id="issue_kind" class="form-control" type="text" name="kind" value={this.state.kind} 
+              onChange={this.handleKind.bind(this)}/>
+            </div>
+            <div className="row">
+              <label for="issue_priority">Priority </label>
+              <input id="issue_priority" class="form-control" type="text" name="priority" value={this.state.priority} 
+              onChange={this.handlePriority.bind(this)}/>
+            </div>
+            <div className="row">
+
+              <label for="issue_assignee">Assignee </label>
+              <input id="issue_assignee" class="form-control" type="text" name="assignee" value={this.state.assignee} 
+              onChange={this.handleAssignee.bind(this)}/>
+            </div>
+            <div className="row">
+              <button
+                onClick={this.createIssue.bind(this)}
+                title="Create Issue"
+                color="#841584">Create Issue</button>
+            </div>
+          </p>
+        </div>
       </div>
     )
   }
