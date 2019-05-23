@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Sidebar from '../Sidebar';
 
 
-export class CreateIssue extends Component {
+export class EditIssue extends Component {
   constructor() {
     super();
     this.state = {
@@ -21,7 +21,7 @@ export class CreateIssue extends Component {
   createIssue() {
     console.log(this.state.title);
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
-    axios.post(url, {
+    axios.put(url, {
       title: this.state.title,
       description: this.state.description,
       asignee_id: this.state.assignee,
@@ -115,4 +115,4 @@ export class CreateIssue extends Component {
   }
 }
 
-export default CreateIssue
+export default EditIssue
