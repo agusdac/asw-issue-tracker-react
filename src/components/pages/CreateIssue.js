@@ -1,10 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import Select from 'react-select';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Sidebar from '../Sidebar';
 
+const kinds = [
+  { value: 'bug', label: 'Bug' },
+  { value: 'enhancement', label: 'Enhancement' },
+  { value: 'proposal', label: 'Proposal' },
+  { value: 'task', label: 'Task' }
+];
 
-export class CreateIssue extends Component {
+const priorities = [
+  { value: 'trivial', label: 'Trivial' },
+  { value: 'minor', label: 'Minor' },
+  { value: 'major', label: 'Major' },
+  { value: 'critical', label: 'Critical' },
+  { value: 'blocker', label: 'Blocker' }
+];
+
+
+export class EditIssue extends Component {
   constructor() {
     super();
     this.state = {
@@ -12,8 +28,9 @@ export class CreateIssue extends Component {
       description: '',
       kind:'',
       priority:'',
-      asignee:'',
-  
+      assignee_id:'',
+      assignee_list:'',
+      assignee_list_json:'',
     }
   }
   
@@ -21,28 +38,58 @@ export class CreateIssue extends Component {
   createIssue() {
     console.log(this.state.title);
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
-    axios.post(url, {
-      title: this.state.title,
-      description: this.state.description,
-      asignee_id: this.state.assignee,
-      kind: this.state.kind,
-      priority: this.state.priority,
-    }, {
-      headers: {
-        "accept":"*/*",
-        "tokenGoogle":"ya29.Gl0JB3hpwEwV6h-9Gntzfnl9DixwdK6-pw4GzCpvSNbLH2Y6cqDIOfxGKwFUGJXy0iZp94eMCjTILWc4BRf2Bwn1B4LH0qtWhH45OR-IIpVbNAlS1rREeKGoG3vLcKI",
-        "Content-Type":"application/json"
-      }
-    } )
-   
+    if(this.state.assignee_id!=='') {
+      axios.put(url, {
+        title: this.state.title,
+        description: this.state.description,
+        assignee_id: this.state.assignee,
+        kind: this.state.kind,
+        priority: this.state.priority,
+      }, {
+        headers: {
+          "accept":"*/*",
+          "tokenGoogle":"ya29.Gl0JB3hpwEwV6h-9Gntzfnl9DixwdK6-pw4GzCpvSNbLH2Y6cqDIOfxGKwFUGJXy0iZp94eMCjTILWc4BRf2Bwn1B4LH0qtWhH45OR-IIpVbNAlS1rREeKGoG3vLcKI",
+          "Content-Type":"application/json"
+        }
+      } )
+    } else{
+      axios.put(url, {
+        title: this.state.title,
+        description: this.state.description,
+        kind: this.state.kind,
+        priority: this.state.priority,
+      }, {
+        headers: {
+          "accept":"*/*",
+          "tokenGoogle":"ya29.Gl0JB3hpwEwV6h-9Gntzfnl9DixwdK6-pw4GzCpvSNbLH2Y6cqDIOfxGKwFUGJXy0iZp94eMCjTILWc4BRf2Bwn1B4LH0qtWhH45OR-IIpVbNAlS1rREeKGoG3vLcKI",
+          "Content-Type":"application/json"
+        }
+      } )
+    }
   }
 
-  test() {
-    console.log("why isnt this working")
+  getUsers() {
+    var url = 'https://issue-tracker-asw-ruby.herokuapp.com/users.json';
+    axios.get(url)
+    .then(res => {
+      const assignee_list_json = res.data;
+       //alert(JSON.stringify(res.data[0].votes.length))
+      this.setState({ assignee_list_json });
+      console.log(this.state.assignee_list);
+    }) 
+  }
+  
+
+  organizeAss() {
+    assignee_list = this.state.cart.map((item, key) =>
+    <li key={item.id}>{item.name}</li>
+);
+
   }
 
   componentDidMount() {
-    
+    this.getUsers();
+    this.organizeAss();
   }
 
   handleTitle(event) {
@@ -58,7 +105,7 @@ export class CreateIssue extends Component {
     this.setState({priority: event.target.value})
   }
   handleAssignee(event) {
-    this.setState({asignee: event.target.value})
+    this.setState({assignee: event.target.value})
   }
 
   render() {
@@ -88,19 +135,36 @@ export class CreateIssue extends Component {
             </div>
             <div className="row">
               <label for="issue_kind">Kind </label>
-              <input id="issue_kind" class="form-control" type="text" name="kind" value={this.state.kind} 
-              onChange={this.handleKind.bind(this)}/>
+              <Select
+                //value={selectedOption}
+                onChange={this.handlePriority}
+                options={kinds}
+              />
+              {/* <input id="issue_kind" class="form-control" type="text" name="kind" value={this.state.kind} 
+              onChange={this.handleKind.bind(this)}/> */}
             </div>
             <div className="row">
               <label for="issue_priority">Priority </label>
-              <input id="issue_priority" class="form-control" type="text" name="priority" value={this.state.priority} 
-              onChange={this.handlePriority.bind(this)}/>
+              <Select
+                //value={selectedOption}
+                onChange={this.handlePriority}
+                options={priorities}
+              />
+              {/* <input id="issue_priority" class="form-control" type="text" name="priority" value={this.state.priority} 
+              onChange={this.handlePriority.bind(this)}/> */}
             </div>
             <div className="row">
 
               <label for="issue_assignee">Assignee </label>
-              <input id="issue_assignee" class="form-control" type="text" name="assignee" value={this.state.assignee} 
-              onChange={this.handleAssignee.bind(this)}/>
+
+              <Select
+                //value={selectedOption}
+                onChange={this.handlePriority}
+                options={priorities}
+              />
+              
+              {/* <input id="issue_assignee" class="form-control" type="text" name="assignee" value={this.state.assignee} 
+              onChange={this.handleAssignee.bind(this)}/> */}
             </div>
             <div className="row">
               <button
@@ -115,4 +179,4 @@ export class CreateIssue extends Component {
   }
 }
 
-export default CreateIssue
+export default EditIssue

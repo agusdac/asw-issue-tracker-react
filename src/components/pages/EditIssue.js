@@ -1,7 +1,23 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import Select from 'react-select';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Sidebar from '../Sidebar';
+
+const kinds = [
+  { value: 'bug', label: 'Bug' },
+  { value: 'enhancement', label: 'Enhancement' },
+  { value: 'proposal', label: 'Proposal' },
+  { value: 'task', label: 'Task' }
+];
+
+const priorities = [
+  { value: 'trivial', label: 'Trivial' },
+  { value: 'minor', label: 'Minor' },
+  { value: 'major', label: 'Major' },
+  { value: 'critical', label: 'Critical' },
+  { value: 'blocker', label: 'Blocker' }
+];
 
 
 export class EditIssue extends Component {
@@ -93,6 +109,11 @@ export class EditIssue extends Component {
             </div>
             <div className="row">
               <label for="issue_priority">Priority </label>
+              <Select
+                //value={selectedOption}
+                //onChange={this.handleChange}
+                options={priorities}
+              />
               <input id="issue_priority" class="form-control" type="text" name="priority" value={this.state.priority} 
               onChange={this.handlePriority.bind(this)}/>
             </div>
