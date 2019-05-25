@@ -6,7 +6,6 @@ import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import axios from 'axios';
 
 
-
 export class Sidebar extends Component {
 
   constructor(props) {
