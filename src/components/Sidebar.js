@@ -35,7 +35,7 @@ export class Sidebar extends Component {
       
       console.log(this.state.image)
    
-      if (boolean == "false"){
+      if (boolean === "false"){
         return (
             <GoogleLogin
             clientId="486935814636-taagm7nb8qn8m52urkblbd0e3llv4f88.apps.googleusercontent.com"
@@ -71,15 +71,17 @@ export class Sidebar extends Component {
     console.log(response);
     localStorage.setItem('token',response.token);
     axios.get("https://issue-tracker-asw-ruby.herokuapp.com/users.json?token="+response.googleId).then(res => {
-          const user = res.data[0];
-          if (res.data === {}){
-          }
-          else{
-          console.log(user)
-          this.setState({ image : response.profileObj.imageUrl, name: response.profileObj.name, token : response.googleId, email : response.profileObj.email, logged : "true"})
-          }
-          // alert(JSON.stringify(res.data[0].votes.length))
-        
+        const user = res.data[0];
+        console.log(res)
+        if (res.data.length === 0){
+            axios.post("https://issue-tracker-asw-ruby.herokuapp.com/users", {
+                name: response.profileObj.name,
+                email: response.profileObj.email,
+                imageurl: response.profileObj.imageUrl,
+                uid: response.profileObj.googleId
+            })
+        }
+        this.setState({ image : response.profileObj.imageUrl, name: response.profileObj.name, token : response.googleId, email :    response.profileObj.email, logged : "true"})
     })
   }
       
