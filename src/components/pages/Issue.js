@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import Sidebar from '../Sidebar';
 
 export class Issue extends Component {
 
@@ -24,7 +25,13 @@ export class Issue extends Component {
   render() {
     return (
       <div>
-        <Link to="/">Home</Link>
+        <div className="index">
+          <div className="sidebar">
+            <p>
+              <Sidebar/>
+            </p>
+          </div>
+        </div>
         <h1>#{this.state.issue.id} {this.state.issue.title}</h1>
         <p>{this.state.issue.description}</p>
         <hr></hr>
