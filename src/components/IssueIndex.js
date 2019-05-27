@@ -22,30 +22,27 @@ export class IssueIndex extends Component {
     
     state = {
       issues: [],
-      initialIssues: [],
-      logged: true,
+      logged: false,
+      userId: 0,
+      token: 0,
     }
   
-    signIn() {
-      this.setState({logged: true})
+
+    changeLogged(log, id, tok) {
+      this.setState({logged: log, userId:id, token: tok})
     }
 
-    getAll() {
-      axios.get("https://issue-tracker-asw-ruby.herokuapp.com/issues.json")
+    async getAll() {
+      await axios.get("https://issue-tracker-asw-ruby.herokuapp.com/issues.json")
         .then(res => {
           const issues = res.data;
           // alert(JSON.stringify(res.data[0].votes.length))
           this.setState({ issues });
-          this.setState({ initialIssues: issues });
         })
     }
 
     componentDidMount() {
       this.getAll();
-    }
-
-    iniIssues() {
-      this.setState({ issues: this.state.initialIssues });
     }
 
     filter(filt, val) {
@@ -56,20 +53,26 @@ export class IssueIndex extends Component {
         })
     }
 
-    myIssues() {
-      axios.get("https://issue-tracker-asw-ruby.herokuapp.com/issues.json?user_id=m")
-        .then(res => {
-          const issues = res.data;
-          this.setState({ issues });
+    async myIssues() {
+      await this.getAll();
+      var auxIssues = [];
+      this.state.issues.forEach((issue) => {
+        if (issue.user_id !== null && issue.user_id === this.state.userId) auxIssues.push(issue);
         })
+      this.setState({issues: auxIssues});
     }
     
-    watching() {
-      axios.get("https://issue-tracker-asw-ruby.herokuapp.com/issues.json?user_id=w")
-        .then(res => {
-          const issues = res.data;
-          this.setState({ issues });
-        })
+    async watching() {
+      await this.getAll();
+      var auxIssues = [];
+      this.state.issues.forEach((issue) => {
+        if (issue.watches.length > 0) {
+          issue.watches.forEach((watch) => {
+            if (watch.user_id === this.state.userId) auxIssues.push(issue);
+          })
+        }
+      })
+      this.setState({issues: auxIssues});
     }
 
     checkassignee(issue) {
@@ -116,18 +119,35 @@ export class IssueIndex extends Component {
       }
 
     watchIssue(id) {
-
+      axios.post("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches.json",{
+        headers: {
+          "accept":"*/*",
+          "tokenGoogle": this.state.token,
+          "Content-Type":"application/json"
+        }
+      })
+      this.getAll();
     }
 
-    unwatchIssue(id) {
-
+    unwatchIssue(id, watchId) {
+      axios.delete("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches/" + watchId + ".json",{
+        headers: {
+          "accept":"*/*",
+          "tokenGoogle": this.state.token,
+          "Content-Type":"application/json"
+        }
+      })
+      this.getAll();
     }
 
     checkWatching(issue) {
-      var amI;
+      var amI, watchId;
       if (issue.watches.length === 0) amI = false;
       issue.watches.forEach((watch) => {
-          if (watch.user_id === 1) amI = true;
+          if (watch.user_id === this.state.userId) {
+            amI = true;
+            watchId = watch.id;
+          }
         }
       )
       
@@ -138,7 +158,7 @@ export class IssueIndex extends Component {
       }
       else {
         return (
-          <td>{<img id = "watch" src = {unwatch} alt = "Unwatch" onClick = {() => this.unwatchIssue(issue.id)}/>}</td>
+          <td>{<img id = "watch" src = {unwatch} alt = "Unwatch" onClick = {() => this.unwatchIssue(issue.id, watchId)}/>}</td>
         )
       }
     }
@@ -149,7 +169,7 @@ export class IssueIndex extends Component {
       <div className = "index">
         <div className = "sidebar">
           <p>
-            <Sidebar />
+            <Sidebar changeLogged = {this.changeLogged.bind(this)}/>
           </p>
         </div>
         <div className = "body">
@@ -159,11 +179,11 @@ export class IssueIndex extends Component {
                 Filter by: 
               </p>
               <ul className = "filter-status">
-                <li className = "filter"> <Link to={'/'} onClick = {()=> this.iniIssues()}> All </Link></li>
-                <li className = "filter"> <Link to={'/'} onClick = {()=> this.filter("status", "open")}> Open </Link> </li>
-                {this.state.logged ? <li className = "filter"> <Link to={'/'} onClick = {()=> this.myIssues()}> My Issues </Link></li> 
+                <li className = "filter" onClick = {()=> this.getAll()}> All </li>
+                <li className = "filter" onClick = {()=> this.filter("status", "open")}> Open </li>
+                {this.state.logged ? <li className = "filter" onClick = {()=> this.myIssues()}> My Issues </li> 
                 :<td></td>}
-                {this.state.logged ? <li className = "filter"> <Link to={'/'} onClick = {()=> this.watching()}> Watching </Link></li>
+                {this.state.logged ? <li className = "filter" onClick = {()=> this.watching()}> Watching</li>
                 :<td></td>}
               </ul>
             </div>

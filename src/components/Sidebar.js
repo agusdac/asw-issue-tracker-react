@@ -47,7 +47,7 @@ export class Sidebar extends Component {
       else 
           return (
               <div>
-                <img src = {this.state.image} className = "perfil_image"/>
+                <img src = {this.state.image} alt = "user" className = "perfil_image"/>
                 Signed in as <strong>{this.state.name}</strong>
                 <GoogleLogout
                 clientId="486935814636-taagm7nb8qn8m52urkblbd0e3llv4f88.apps.googleusercontent.com"
@@ -57,14 +57,13 @@ export class Sidebar extends Component {
                 </GoogleLogout>
             </div>
           )
-      
   }
   
   logout = () => {
       
       this.setState({logged : "false"})
-      localStorage.clear()
-      
+      localStorage.clear()      
+      this.props.changeLogged(false);
   }
   
   responseGoogle = (response) => {
@@ -82,8 +81,10 @@ export class Sidebar extends Component {
             })
         }
         this.setState({ image : response.profileObj.imageUrl, name: response.profileObj.name, token : response.googleId, email :    response.profileObj.email, logged : "true"})
+        this.props.changeLogged(this.state.logged,res.data[0].id,this.state.token);
     })
+    
   }
-      
+  
 }
 export default Sidebar
