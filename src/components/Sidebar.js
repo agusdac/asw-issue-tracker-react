@@ -32,9 +32,14 @@ export class Sidebar extends Component {
   }
   
   conditionalLogin = (boolean) => {
-      
-      console.log(this.state.image)
-   
+         
+      if (localStorage.getItem('logged') === "true" && boolean === "false"){
+        this.setState({ image : localStorage.getItem('imageurl'),
+        name: localStorage.getItem('name'), 
+        token : localStorage.getItem('googleId'), 
+        email : localStorage.getItem('email'), 
+        logged : localStorage.getItem('logged')})
+      }
       if (boolean === "false"){
         return (
             <GoogleLogin
@@ -62,17 +67,14 @@ export class Sidebar extends Component {
   
   logout = () => {
       
-      this.setState({logged : "false"})
+      //ahora es clear porque nadie usa localStorage, si alguien usa localStorage cambiar este clear por lo que le pertoca
       localStorage.clear()
+      this.setState({logged : "false"})
       
   }
   
   responseGoogle = (response) => {
-    console.log(response);
-    localStorage.setItem('token',response.token);
     axios.get("https://issue-tracker-asw-ruby.herokuapp.com/users.json?token="+response.googleId).then(res => {
-        const user = res.data[0];
-        console.log(res)
         if (res.data.length === 0){
             axios.post("https://issue-tracker-asw-ruby.herokuapp.com/users", {
                 name: response.profileObj.name,
@@ -81,7 +83,16 @@ export class Sidebar extends Component {
                 uid: response.profileObj.googleId
             })
         }
-        this.setState({ image : response.profileObj.imageUrl, name: response.profileObj.name, token : response.googleId, email :    response.profileObj.email, logged : "true"})
+        localStorage.setItem('uid', response.profileObj.googleId)
+        localStorage.setItem('name', response.profileObj.name)
+        localStorage.setItem('email', response.profileObj.email)
+        localStorage.setItem('imageurl', response.profileObj.imageUrl)
+        localStorage.setItem('logged', "true")
+        this.setState({ image : response.profileObj.imageUrl,
+            name: response.profileObj.name, 
+            token : response.googleId, 
+            email : response.profileObj.email, 
+            logged : "true"})
     })
   }
       

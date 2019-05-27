@@ -31,6 +31,7 @@ export class IssueIndex extends Component {
     }
 
     getAll() {
+      alert(localStorage.getItem('logged'))
       axios.get("https://issue-tracker-asw-ruby.herokuapp.com/issues.json")
         .then(res => {
           const issues = res.data;
