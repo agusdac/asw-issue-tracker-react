@@ -17,8 +17,8 @@ export class Sidebar extends Component {
       token : "",
       url: "",
       email: "",
-      logged : "false"
-          
+      logged : "false",
+      userId: "",    
       }
   }
   
@@ -38,7 +38,8 @@ export class Sidebar extends Component {
         name: localStorage.getItem('name'), 
         token : localStorage.getItem('googleId'), 
         email : localStorage.getItem('email'), 
-        logged : localStorage.getItem('logged')})
+        logged : localStorage.getItem('logged'),
+        userId : localStorage.getItem('userId')})
       }
       if (boolean === "false"){
         return (
@@ -52,7 +53,7 @@ export class Sidebar extends Component {
       else 
           return (
               <div>
-                <img src = {this.state.image} className = "perfil_image"/>
+                <img src = {this.state.image} alt = "user" className = "perfil_image"/>
                 Signed in as <strong>{this.state.name}</strong>
                 <GoogleLogout
                 clientId="486935814636-taagm7nb8qn8m52urkblbd0e3llv4f88.apps.googleusercontent.com"
@@ -62,12 +63,12 @@ export class Sidebar extends Component {
                 </GoogleLogout>
             </div>
           )
-      
   }
   
   logout = () => {
       
       //ahora es clear porque nadie usa localStorage, si alguien usa localStorage cambiar este clear por lo que le pertoca
+      this.props.changeLogged(false)
       localStorage.clear()
       this.setState({logged : "false"})
       
@@ -88,13 +89,17 @@ export class Sidebar extends Component {
         localStorage.setItem('email', response.profileObj.email)
         localStorage.setItem('imageurl', response.profileObj.imageUrl)
         localStorage.setItem('logged', "true")
+        localStorage.setItem('userId', res.data[0].id)
         this.setState({ image : response.profileObj.imageUrl,
             name: response.profileObj.name, 
             token : response.googleId, 
             email : response.profileObj.email, 
-            logged : "true"})
+            logged : "true",
+            userId: res.data[0].id})
+            this.props.changeLogged(this.state.logged,res.data[0].id,this.state.token);
     })
+    
   }
-      
+  
 }
 export default Sidebar
