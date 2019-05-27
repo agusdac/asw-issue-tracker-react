@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import Sidebar from '../Sidebar';
 
 const kinds = [
@@ -28,7 +27,7 @@ export class EditIssue extends Component {
       description: '',
       kind:'',
       priority:'',
-      assignee_id:'',
+      assignee:'',
       assignee_list:'',
       assignee_list_json:'',
     }
@@ -38,13 +37,13 @@ export class EditIssue extends Component {
   createIssue() {
     console.log(this.state.title);
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
-    if(this.state.assignee_id!=='') {
-      axios.put(url, {
+    if(this.state.assignee!=='') {
+      axios.post(url, {
         title: this.state.title,
         description: this.state.description,
-        assignee_id: this.state.assignee,
-        kind: this.state.kind,
-        priority: this.state.priority,
+        assignee_id: this.state.assignee.value,
+        kind: this.state.kind.value,
+        priority: this.state.priority.value,
       }, {
         headers: {
           "accept":"*/*",
@@ -53,11 +52,11 @@ export class EditIssue extends Component {
         }
       } )
     } else{
-      axios.put(url, {
+      axios.post(url, {
         title: this.state.title,
         description: this.state.description,
-        kind: this.state.kind,
-        priority: this.state.priority,
+        kind: this.state.kind.value,
+        priority: this.state.priority.value,
       }, {
         headers: {
           "accept":"*/*",
@@ -72,35 +71,55 @@ export class EditIssue extends Component {
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/users.json';
     axios.get(url)
     .then(res => {
-      const assignee_list_json = res.data;
+      const assignee_list_json_axios = res.data;
        //alert(JSON.stringify(res.data[0].votes.length))
-      this.setState({ assignee_list_json });
-      console.log(this.state.assignee_list);
-    }) 
+
+      console.log(assignee_list_json_axios);
+      this.setState({ 
+        assignee_list_json: assignee_list_json_axios });
+      console.log(this.state.assignee_list_json);
+    }).then(this.organizeAss) 
   }
   
 
   organizeAss() {
-    assignee_list = this.state.cart.map((item, key) =>
-    <li key={item.id}>{item.name}</li>
-);
+    //console.log(this.state.assignee_list_json);
+    //     assignee_list = this.state.cart.map((item, key) =>
+//     <li key={item.id}>{item.name}</li>
+// );
 
   }
 
   componentDidMount() {
     this.getUsers();
-    this.organizeAss();
+    // this.organizeAss();
   }
 
   handleTitle(event) {
+    console.log(event.target.value);
     this.setState({title: event.target.value})
   }  
   handleDescription(event) {
     this.setState({description: event.target.value})
   }  
-  handleKind(event) {
-    this.setState({kind: event.target.value})
-  }  
+
+  handleKind = (kind) => {
+    this.setState({ kind });
+    console.log(`Option selected:`, kind.value);
+  }
+  handlePriority = (priority) => {
+    this.setState({ priority });
+    console.log(`Option selected:`, priority.value);
+  }
+  handleAssignee = (assignee) => {
+    this.setState({ assignee });
+    console.log(`Option selected:`, assignee.value);
+  }
+  // handleKind(event) {
+  //   console.log(event.target.value);
+
+  //   this.setState({kind: event.target.value})
+  // }  
   handlePriority(event) {
     this.setState({priority: event.target.value})
   }
@@ -122,22 +141,22 @@ export class EditIssue extends Component {
               Create a new Issue
             </h1>
           </div>
-          <p>
+          <div>
             <div className="row">
               <label for="issue_title">Title </label>
-              <input id="issue_title" class="form-control" type="text" name="title" value={this.state.title} 
+              <input id="issue_title"  type="text" name="title" value={this.state.title} 
               onChange={this.handleTitle.bind(this)}/>
             </div>
             <div className="row">
               <label for="issue_description">Description </label>
-              <input id="issue_description" class="form-control" type="text" name="description" value={this.state.description} 
+              <input id="issue_description"  type="text" name="description" value={this.state.description} 
               onChange={this.handleDescription.bind(this)}/>
             </div>
             <div className="row">
               <label for="issue_kind">Kind </label>
               <Select
                 //value={selectedOption}
-                onChange={this.handlePriority}
+                onChange={this.handleKind}
                 options={kinds}
               />
               {/* <input id="issue_kind" class="form-control" type="text" name="kind" value={this.state.kind} 
@@ -160,7 +179,7 @@ export class EditIssue extends Component {
               <Select
                 //value={selectedOption}
                 onChange={this.handlePriority}
-                options={priorities}
+                //options={this.state.assignee_list_json}
               />
               
               {/* <input id="issue_assignee" class="form-control" type="text" name="assignee" value={this.state.assignee} 
@@ -172,7 +191,7 @@ export class EditIssue extends Component {
                 title="Create Issue"
                 color="#841584">Create Issue</button>
             </div>
-          </p>
+          </div>
         </div>
       </div>
     )

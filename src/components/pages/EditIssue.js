@@ -37,44 +37,60 @@ export class EditIssue extends Component {
   createIssue() {
     console.log(this.state.title);
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
-    axios.put(url, {
-      title: this.state.title,
-      description: this.state.description,
-      asignee_id: this.state.assignee,
-      kind: this.state.kind,
-      priority: this.state.priority,
-    }, {
-      headers: {
-        "accept":"*/*",
-        "tokenGoogle":"ya29.Gl0JB3hpwEwV6h-9Gntzfnl9DixwdK6-pw4GzCpvSNbLH2Y6cqDIOfxGKwFUGJXy0iZp94eMCjTILWc4BRf2Bwn1B4LH0qtWhH45OR-IIpVbNAlS1rREeKGoG3vLcKI",
-        "Content-Type":"application/json"
-      }
-    } )
-   
+    if(this.state.assignee!=='') {
+      axios.put(url, {
+        title: this.state.title,
+        description: this.state.description,
+        assignee_id: this.state.assignee.value,
+        kind: this.state.kind.value,
+        priority: this.state.priority.value,
+      }, {
+        headers: {
+          "accept":"*/*",
+          "tokenGoogle":"ya29.Gl0JB3hpwEwV6h-9Gntzfnl9DixwdK6-pw4GzCpvSNbLH2Y6cqDIOfxGKwFUGJXy0iZp94eMCjTILWc4BRf2Bwn1B4LH0qtWhH45OR-IIpVbNAlS1rREeKGoG3vLcKI",
+          "Content-Type":"application/json"
+        }
+      } )
+    } else{
+      axios.put(url, {
+        title: this.state.title,
+        description: this.state.description,
+        kind: this.state.kind.value,
+        priority: this.state.priority.value,
+      }, {
+        headers: {
+          "accept":"*/*",
+          "tokenGoogle":"ya29.Gl0JB3hpwEwV6h-9Gntzfnl9DixwdK6-pw4GzCpvSNbLH2Y6cqDIOfxGKwFUGJXy0iZp94eMCjTILWc4BRf2Bwn1B4LH0qtWhH45OR-IIpVbNAlS1rREeKGoG3vLcKI",
+          "Content-Type":"application/json"
+        }
+      } )
+    }
   }
 
-  test() {
-    console.log("why isnt this working")
-  }
 
   componentDidMount() {
     
   }
 
   handleTitle(event) {
+    console.log(event.target.value);
     this.setState({title: event.target.value})
   }  
   handleDescription(event) {
     this.setState({description: event.target.value})
   }  
-  handleKind(event) {
-    this.setState({kind: event.target.value})
-  }  
-  handlePriority(event) {
-    this.setState({priority: event.target.value})
+
+  handleKind = (kind) => {
+    this.setState({ kind });
+    console.log(`Option selected:`, kind.value);
   }
-  handleAssignee(event) {
-    this.setState({asignee: event.target.value})
+  handlePriority = (priority) => {
+    this.setState({ priority });
+    console.log(`Option selected:`, priority.value);
+  }
+  handleAssignee = (assignee) => {
+    this.setState({ assignee });
+    console.log(`Option selected:`, assignee.value);
   }
 
   render() {
