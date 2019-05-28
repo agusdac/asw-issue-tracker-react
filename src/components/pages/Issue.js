@@ -6,8 +6,7 @@ import Sidebar from '../Sidebar';
 export class Issue extends Component {
 
   state = {
-    issue:{},
-    userEmail: ""
+    issue:{}
   }
 
   componentDidMount() {
