@@ -47,7 +47,7 @@ export class EditIssue extends Component {
       }, {
         headers: {
           "accept":"*/*",
-          "tokenGoogle":localStorage.getItem('uid'),
+          "tokenGoogle": localStorage.getItem('uid'),
           "Content-Type":"application/json"
         }
       } ).then(res => {   
