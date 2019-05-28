@@ -92,11 +92,11 @@ export class Sidebar extends Component {
         localStorage.setItem('userId', res.data[0].id)
         this.setState({ image : response.profileObj.imageUrl,
             name: response.profileObj.name, 
-            token : response.googleId, 
+            token : response.uid, 
             email : response.profileObj.email, 
             logged : "true",
             userId: res.data[0].id})
-            this.props.changeLogged(this.state.logged,res.data[0].id,this.state.token);
+            this.props.changeLogged(this.state.logged,this.state.userId,this.state.token);
     })
     
   }

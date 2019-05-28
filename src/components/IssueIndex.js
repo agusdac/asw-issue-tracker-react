@@ -23,12 +23,11 @@ export class IssueIndex extends Component {
     state = {
       issues: [],
       logged: localStorage.getItem('logged'),
-      userId: localStorage.getItem('userId'),
-      token: localStorage.getItem('googleId'),
+      userId: parseInt(localStorage.getItem('userId')),
+      token: localStorage.getItem('uid'),
     }
 
     changeLogged = (log, id, tok) =>{
-      alert("eyyyyyyyy")
       this.setState({logged: log, userId:id, token: tok})
     }
       
@@ -58,7 +57,7 @@ export class IssueIndex extends Component {
       await this.getAll();
       var auxIssues = [];
       this.state.issues.forEach((issue) => {
-        if (issue.user_id == this.state.userId) auxIssues.push(issue);
+        if (issue.user_id === this.state.userId) auxIssues.push(issue);
         })
       this.setState({issues: auxIssues});
     }
@@ -69,7 +68,7 @@ export class IssueIndex extends Component {
       this.state.issues.forEach((issue) => {
         if (issue.watches.length > 0) {
           issue.watches.forEach((watch) => {
-            if (watch.user_id == this.state.userId) auxIssues.push(issue);
+            if (watch.user_id === this.state.userId) auxIssues.push(issue);
           })
         }
       })
@@ -94,6 +93,8 @@ export class IssueIndex extends Component {
           const issues = res.data;
           this.setState({ issues });
         })
+        
+      alert(JSON.stringify(this.state.token))
     }
 
     getImage(param) {
@@ -112,26 +113,19 @@ export class IssueIndex extends Component {
       )
     }
 
-    changeColor(element) {
-        // Check to see if the button is pressed
-        var pressed = (element.target.getAttribute("aria_pressed") === "true");
-        // Change aria-pressed to the opposite state
-        element.target.setAttribute("aria_pressed", !pressed);
-      }
-
-    watchIssue(id) {
-      axios.post("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches.json",{
+    async watchIssue(id) {
+      await axios.post("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches.json",{
         headers: {
-          "accept":"*/*",
+          "accept": "application/json",
           "tokenGoogle": this.state.token,
           "Content-Type":"application/json"
         }
       })
-      this.getAll();
+      // this.getAll();
     }
 
-    unwatchIssue(id, watchId) {
-      axios.delete("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches/" + watchId + ".json",{
+    async unwatchIssue(id, watchId) {
+      await axios.delete("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches/" + watchId + ".json",{
         headers: {
           "accept":"*/*",
           "tokenGoogle": this.state.token,
@@ -145,7 +139,7 @@ export class IssueIndex extends Component {
       var amI, watchId;
       if (issue.watches.length === 0) amI = false;
       issue.watches.forEach((watch) => {
-          if (watch.user_id == this.state.userId) {
+          if (watch.user_id === this.state.userId) {
             amI = true;
             watchId = watch.id;
           }
