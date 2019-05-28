@@ -30,12 +30,13 @@ export class EditIssue extends Component {
       assignee:'',
       assignee_list:'',
       assignee_list_json:'',
+      token:''
     }
   }
   
 
   createIssue() {
-    console.log(this.state.title);
+    console.log(localStorage.getItem('uid'));
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
     if(this.state.assignee!=='') {
       axios.post(url, {
@@ -47,7 +48,7 @@ export class EditIssue extends Component {
       }, {
         headers: {
           "accept":"*/*",
-          "tokenGoogle":"ya29.Gl0JB3hpwEwV6h-9Gntzfnl9DixwdK6-pw4GzCpvSNbLH2Y6cqDIOfxGKwFUGJXy0iZp94eMCjTILWc4BRf2Bwn1B4LH0qtWhH45OR-IIpVbNAlS1rREeKGoG3vLcKI",
+          "tokenGoogle":localStorage.getItem('uid'),
           "Content-Type":"application/json"
         }
       } )
@@ -60,7 +61,7 @@ export class EditIssue extends Component {
       }, {
         headers: {
           "accept":"*/*",
-          "tokenGoogle":"ya29.Gl0JB3hpwEwV6h-9Gntzfnl9DixwdK6-pw4GzCpvSNbLH2Y6cqDIOfxGKwFUGJXy0iZp94eMCjTILWc4BRf2Bwn1B4LH0qtWhH45OR-IIpVbNAlS1rREeKGoG3vLcKI",
+          "tokenGoogle": localStorage.getItem('uid'),
           "Content-Type":"application/json"
         }
       } )
@@ -83,15 +84,21 @@ export class EditIssue extends Component {
   
 
   organizeAss() {
-    //console.log(this.state.assignee_list_json);
-    //     assignee_list = this.state.cart.map((item, key) =>
-//     <li key={item.id}>{item.name}</li>
-// );
+  
 
   }
 
+  getLocalStorage() {
+    const tokenlocal = localStorage.getItem('uid');
+    console.log("local storage token" + tokenlocal);
+    this.setState({token: tokenlocal});
+    console.log(this.state.token);
+  }
+
   componentDidMount() {
+    this.getLocalStorage();
     this.getUsers();
+    
     // this.organizeAss();
   }
 
