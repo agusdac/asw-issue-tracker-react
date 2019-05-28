@@ -24,6 +24,7 @@ export class EditIssue extends Component {
   constructor() {
     super();
     this.state = {
+      issue: '',
       title: '',
       description: '',
       kind:'',
@@ -33,12 +34,19 @@ export class EditIssue extends Component {
     }
   }
   
+  getIssue() {
+    axios.get(`https://issue-tracker-asw-ruby.herokuapp.com/issues/${this.props.match.params.id}.json`)
+    .then(res => {
+      const issue = res.data;
+      this.setState({ issue });
+    })
+  }
 
   createIssue() {
-    console.log(this.state.title);
+    console.log(localStorage.getItem('uid'));
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
     if(this.state.assignee!=='') {
-      axios.put(url, {
+      axios.post(url, {
         title: this.state.title,
         description: this.state.description,
         assignee_id: this.state.assignee.value,
@@ -47,12 +55,14 @@ export class EditIssue extends Component {
       }, {
         headers: {
           "accept":"*/*",
-          "tokenGoogle":"ya29.Gl0JB3hpwEwV6h-9Gntzfnl9DixwdK6-pw4GzCpvSNbLH2Y6cqDIOfxGKwFUGJXy0iZp94eMCjTILWc4BRf2Bwn1B4LH0qtWhH45OR-IIpVbNAlS1rREeKGoG3vLcKI",
+          "tokenGoogle":localStorage.getItem('uid'),
           "Content-Type":"application/json"
         }
-      } )
-    } else{
-      axios.put(url, {
+      } ).then(res => {   
+        this.props.history.push("/issue/"+res.data.id)
+    })
+    } else {
+      axios.post(url, {
         title: this.state.title,
         description: this.state.description,
         kind: this.state.kind.value,
@@ -60,10 +70,13 @@ export class EditIssue extends Component {
       }, {
         headers: {
           "accept":"*/*",
-          "tokenGoogle":"ya29.Gl0JB3hpwEwV6h-9Gntzfnl9DixwdK6-pw4GzCpvSNbLH2Y6cqDIOfxGKwFUGJXy0iZp94eMCjTILWc4BRf2Bwn1B4LH0qtWhH45OR-IIpVbNAlS1rREeKGoG3vLcKI",
+          "tokenGoogle": localStorage.getItem('uid'),
           "Content-Type":"application/json"
         }
-      } )
+      } ).then(res => {   
+              console.log(res.data.id);
+              this.props.history.push("/issue/"+res.data.id)
+          })
     }
   }
 

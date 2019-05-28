@@ -27,6 +27,9 @@ export class Issue extends Component {
         <Link to="/">Home</Link>
         <h1>#{this.state.issue.id} {this.state.issue.title}</h1>
         <p>{this.state.issue.description}</p>
+        <span id = "newIssue">
+          <Link to={'/issue/'+this.state.issue.id+'/edit' }> Edit Issue</Link>
+        </span>
         <hr></hr>
         <p>Kind: {this.state.issue.kind}</p>
         <p>Priority: {this.state.issue.priority}</p>

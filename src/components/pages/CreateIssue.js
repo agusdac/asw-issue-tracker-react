@@ -30,7 +30,6 @@ export class EditIssue extends Component {
       assignee:'',
       assignee_list:'',
       assignee_list_json:'',
-      token:''
     }
   }
   
@@ -51,7 +50,9 @@ export class EditIssue extends Component {
           "tokenGoogle":localStorage.getItem('uid'),
           "Content-Type":"application/json"
         }
-      } ).then(res => {   console.log(res.data);    })
+      } ).then(res => {   
+        this.props.history.push("/issue/"+res.data.id)
+    })
     } else {
       axios.post(url, {
         title: this.state.title,
@@ -66,9 +67,9 @@ export class EditIssue extends Component {
         }
       } ).then(res => {   
               console.log(res.data.id);
-              this.props.history.push("/issue/"+res.data.id);      })
+              this.props.history.push("/issue/"+res.data.id)
+          })
     }
-    //this.props.history.push("/"); //shauria de cambiar a show d issue (si es pot, nose com obtenir el id del issue just creat)
   }
 
   getUsers() {
@@ -87,21 +88,11 @@ export class EditIssue extends Component {
   
 
   organizeAss() {
-  
 
-  }
-
-  getLocalStorage() {
-    const tokenlocal = localStorage.getItem('uid');
-    console.log("local storage token" + tokenlocal);
-    this.setState({token: tokenlocal});
-    console.log(this.state.token);
   }
 
   componentDidMount() {
-    this.getLocalStorage();
     this.getUsers();
-    
     // this.organizeAss();
   }
 
