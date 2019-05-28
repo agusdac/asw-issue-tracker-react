@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Sidebar from '../Sidebar';
 
 export class Issue extends Component {
 
   state = {
-    issue:{}
+    issue:{},
+    userEmail: ""
   }
 
   componentDidMount() {
@@ -16,15 +16,31 @@ export class Issue extends Component {
         const issue = res.data;
         this.setState({ issue });
       })
+
+    console.log(localStorage.getItem('uid'));
   }
 
   handleSubmit(event){
-
+    var text = event.target.value;
+    console.log(localStorage.getItem('uid'));
+    console.log(text);
+    var url = `https://issue-tracker-asw-ruby.herokuapp.com/issues/${this.props.match.params.id}/comments.json`;
+    console.log(url);
+    axios.post(url, {
+      content: "hola"
+    },{
+      headers: {
+        "accept" : "*/*",
+        "tokenGoogle":localStorage.getItem('uid'),
+        "Content-Type":"application/json"
+      }
+    })
   }
 
   render() {
     return (
       <div>
+        {/*
         <div className="index">
           <div className="sidebar">
             <p>
@@ -32,6 +48,7 @@ export class Issue extends Component {
             </p>
           </div>
         </div>
+        */}
         <h1>#{this.state.issue.id} {this.state.issue.title}</h1>
         <p>{this.state.issue.description}</p>
         <hr></hr>
@@ -43,7 +60,7 @@ export class Issue extends Component {
         {undefined !== this.state.issue.comments ? this.state.issue.comments.reverse().map(comment =>
           <p>{comment.content} - {moment(comment.created_at).fromNow()}</p>
         ) : null}
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit.bind(this)}>
             <textarea/>
           <input type="submit" value="Send" />
         </form>
