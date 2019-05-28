@@ -3,8 +3,12 @@ import IssueIndex from './components/IssueIndex';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Issue from './components/pages/Issue';
 import CreateIssue from './components/pages/CreateIssue'
+import cors from 'cors'
 
 function App() {
+    require('cors')
+    cors()
+    
   return (
     <Router>
       <div className="App">

@@ -27,7 +27,8 @@ export class IssueIndex extends Component {
       token: localStorage.getItem('googleId'),
     }
 
-    changeLogged(log, id, tok) {
+    changeLogged = (log, id, tok) =>{
+      alert("eyyyyyyyy")
       this.setState({logged: log, userId:id, token: tok})
     }
       
@@ -168,9 +169,7 @@ export class IssueIndex extends Component {
     return (
       <div className = "index">
         <div className = "sidebar">
-          <p>
-            <Sidebar changeLogged = {this.changeLogged.bind(this)}/>
-          </p>
+            <Sidebar changeLogged = {this.changeLogged.bind(Sidebar.props)}/>
         </div>
         <div className = "body">
           <div className = "header">
