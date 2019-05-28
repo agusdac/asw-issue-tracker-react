@@ -51,8 +51,8 @@ export class EditIssue extends Component {
           "tokenGoogle":localStorage.getItem('uid'),
           "Content-Type":"application/json"
         }
-      } )
-    } else{
+      } ).then(res => {   console.log(res.data);    })
+    } else {
       axios.post(url, {
         title: this.state.title,
         description: this.state.description,
@@ -64,8 +64,11 @@ export class EditIssue extends Component {
           "tokenGoogle": localStorage.getItem('uid'),
           "Content-Type":"application/json"
         }
-      } )
+      } ).then(res => {   
+              console.log(res.data.id);
+              this.props.history.push("/issue/"+res.data.id);      })
     }
+    //this.props.history.push("/"); //shauria de cambiar a show d issue (si es pot, nose com obtenir el id del issue just creat)
   }
 
   getUsers() {
