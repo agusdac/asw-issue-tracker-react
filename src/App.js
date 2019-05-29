@@ -20,10 +20,7 @@ function App() {
           </React.Fragment>
         )}/>
         <Route exact path="/issue/:id" component={Issue} />
-<<<<<<< HEAD
-=======
         <Route exact path="/issue/:id/comments/:commentId/edit" component={EditComment} />
->>>>>>> raulBranch2
         <Route path="/issues/new" component={CreateIssue} />
         <Route exact path="/issue/:id/edit" component={EditIssue} />
       </div>

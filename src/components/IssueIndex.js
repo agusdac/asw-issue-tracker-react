@@ -113,36 +113,14 @@ export class IssueIndex extends Component {
       )
     }
 
-<<<<<<< HEAD
     async watchIssue(id) {
       axios.post("https://issue-tracker-asw-ruby.herokuapp.com/issues/"+id+"/watches.json",{
-=======
-    changeColor(element) {
-        // Check to see if the button is pressed
-        var pressed = (element.target.getAttribute("aria_pressed") === "true");
-        // Change aria-pressed to the opposite state
-        element.target.setAttribute("aria_pressed", !pressed);
-      }
-
-    watchIssue(id) {
-      axios.post("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches.json",{},{
->>>>>>> raulBranch2
         headers: {
           "accept": "*/*",
           "tokenGoogle": this.state.token,
           "Content-Type":"application/json"
         }
-<<<<<<< HEAD
       })
-=======
-      }).then(res => {
-        window.location.reload();
-      }).catch(error => {
-        console.log(error);
-        window.location.reload();
-      });
-      this.getAll();
->>>>>>> raulBranch2
     }
 
     timeout(ms) {
