@@ -35,13 +35,13 @@ export class EditIssue extends Component {
 
   createIssue() {
     console.log(localStorage.getItem('uid'));
-    console.log(this.state.assigneeList);
+    console.log("assignee is" + this.state.assignee.value);
+    console.log("priority is" + this.state.priority);
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
-    if(this.state.assignee!=='') {
+    if(this.state.assignee.value=="no assignee") {
       axios.post(url, {
         title: this.state.title,
         description: this.state.description,
-        assignee_id: this.state.assignee.value,
         kind: this.state.kind.value,
         priority: this.state.priority.value,
       }, {
@@ -50,13 +50,15 @@ export class EditIssue extends Component {
           "tokenGoogle": localStorage.getItem('uid'),
           "Content-Type":"application/json"
         }
-      } ).then(res => {   
+      } ).then(res => {  
+        console.log("post w no assignee") 
         this.props.history.push("/issue/"+res.data.id)
     })
     } else {
       axios.post(url, {
         title: this.state.title,
         description: this.state.description,
+        assignee_id: this.state.assignee.value,
         kind: this.state.kind.value,
         priority: this.state.priority.value,
       }, {
@@ -88,14 +90,13 @@ export class EditIssue extends Component {
         )
       })
       assigneeListRes.push({
-        value: "asdf",
+        value: "no assignee",
         label: "No assignee"
       }
       )
       this.setState({assigneeList:assigneeListRes})
       
       console.log(this.state.assigneeList)
-      console.log(kinds)
       // const assignee_list_json_axios = res.data;
       //  //alert(JSON.stringify(res.data[0].votes.length))
 
@@ -130,19 +131,19 @@ export class EditIssue extends Component {
   }
   handlePriority = (priority) => {
     this.setState({ priority });
-    console.log(`Option selected:`, priority.value);
+    console.log(`Priority selected:`, priority.value);
+    console.log(`Priority in state:`, this.state.priority);
+
   }
   handleAssignee = (assignee) => {
-    this.setState({ assignee });
-    console.log(`Option selected:`, assignee.value);
+    this.setState({ assignee: assignee });
+    console.log(`Assignee selected in state:`, this.state.assignee);
+    console.log(`Assignee selected in box:`, assignee.value);
+
   }
 
-  handlePriority(event) {
-    this.setState({priority: event.target.value})
-  }
-  handleAssignee(event) {
-    this.setState({assignee: event.target.value})
-  }
+
+
 
   render() {
     return (
@@ -195,7 +196,7 @@ export class EditIssue extends Component {
 
               <Select
                 //value={selectedOption}
-                onChange={this.handlePriority}
+                onChange={this.handleAssignee}
                 options={this.state.assigneeList}
               />
               

@@ -18,7 +18,7 @@ function App() {
             <IssueIndex/>
           </React.Fragment>
         )}/>
-        <Route path="/issue/:id" component={Issue} />
+        <Route exact path="/issue/:id" component={Issue} />
         <Route path="/issues/new" component={CreateIssue} />
         <Route exact path="/issue/:id/edit" component={EditIssue} />
       </div>

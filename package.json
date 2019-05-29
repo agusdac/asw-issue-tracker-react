@@ -13,8 +13,8 @@
     "react-google-login": "^5.0.4",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
-    "react-sticky": "^6.0.3",
-    "react-select": "^2.4.3"
+    "react-select": "^2.4.3",
+    "react-sticky": "^6.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
