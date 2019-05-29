@@ -413,3 +413,207 @@
     }
   } 
   
+
+.raul-issue-attrs {
+    border: 1px solid #DFE1E6;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+
+.raul-noHover{
+    pointer-events: none;
+} 
+
+.raul-issue-title{
+    font-size: 1.71428571em;
+    font-style: inherit;
+    font-weight: 500;
+    letter-spacing: -.01em;
+    line-height: 1.16666667;
+    color: #172B4D;
+}
+
+.raul-user-name {
+    font-weight: 700;
+    color: #0052CC;
+}
+
+.raul-time-ago{
+    font-size: 12px;
+    color: #707070;
+}
+
+.raul-user-image {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.raul-button-primary{
+    color: #FFF;
+    background: #0052CC;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    border: none;
+    outline: 0;
+    align-items: flex-start;
+    text-align: center;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    height: 2.28571429em;
+    line-height: 1.57142857em;
+    text-decoration: none;
+    vertical-align: baseline;
+    white-space: nowrap;
+    border-top-left-radius: 3.01px;
+    border-bottom-left-radius: 3.01px;
+    border-top-right-radius: 3.01px;
+    border-bottom-right-radius: 3.01px;
+    margin: 3px;
+    cursor: pointer;
+}
+
+.raul-button-primary2{
+    padding: 7px;
+    margin: 3px;
+    color: #505F79;
+    background: #F4F5F7;
+    border: none;
+    outline: 0;
+    height: 2.28571429em;
+    line-height: 1.57142857em;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    border: none;
+    outline: 0;
+    align-items: flex-start;
+    text-align: center;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    height: 2.28571429em;
+    line-height: 1.57142857em;
+    text-decoration: none;
+    vertical-align: baseline;
+    white-space: nowrap;
+    border-top-left-radius: 3.01px;
+    border-bottom-left-radius: 3.01px;
+    border-top-right-radius: 3.01px;
+    border-bottom-right-radius: 3.01px;
+}
+
+.raul-button-primary2:hover{
+    border-color: #999;
+    background: #EBECF0 !important;
+    color: #505F79;
+    border: none;
+    outline: 0;
+    height: 2.28571429em;
+    line-height: 1.57142857em;
+    text-decoration: none;
+}
+
+.raul-button-secondary{
+    color: #505F79;
+    text-decoration: none;
+    font-size: 12px;
+    list-style: none;
+}
+
+.raul-not-bold{
+    font-weight: normal !important;
+}
+
+.raul-link-secondary:visited{
+    color: #0052CC !important;
+}
+
+.raul-link-secondary{
+    pointer-events: auto !important;
+}
+.raul-link-secondary:hover{
+    background: white;
+}
+
+.raul-counter-active{
+    background-color: #326ca6;
+    color: #fff;
+    border-radius: 2em;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: .99;
+    min-height: 1em;
+    min-width: 1em;
+    padding: 3px 5px 2px;
+    position: relative;
+    text-shadow: none;
+    display: inline-block;
+    margin: 0;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.raul-counter-inactive{
+    background-color: #326ca6;
+    color: #fff;
+    border-radius: 2em;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: .99;
+    min-height: 1em;
+    min-width: 1em;
+    padding: 3px 5px 2px;
+    position: relative;
+    text-shadow: none;
+    display: inline-block;
+    margin: 0;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    background: rgba(0,0,0,.2);
+    white-space: nowrap;
+}
+
+.raul-title-status{
+    margin: 2px 0 2px 5px;
+    vertical-align: top;
+    background-color: #14892c;
+    border-color: #14892c;
+    color: #fff;
+    background: #ccc;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 99%;
+    padding: 2px 5px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.raul-like-a-link{
+  cursor: pointer;
+}
+
+.raul-comment{
+  margin: 2px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid rgba(0,0,0,.2);
+}
+
+.raul-body{
+  padding-top: 55px;
+}
