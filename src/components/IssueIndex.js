@@ -114,25 +114,29 @@ export class IssueIndex extends Component {
     }
 
     async watchIssue(id) {
-      await axios.post("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches.json",{
+      axios.post("https://issue-tracker-asw-ruby.herokuapp.com/issues/"+id+"/watches.json",{
         headers: {
-          "accept": "application/json",
+          "accept": "*/*",
           "tokenGoogle": this.state.token,
           "Content-Type":"application/json"
         }
       })
-      // this.getAll();
+    }
+
+    timeout(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms))
     }
 
     async unwatchIssue(id, watchId) {
-      await axios.delete("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches/" + watchId + ".json",{
+       axios.delete("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches/" + watchId + ".json",{
         headers: {
           "accept":"*/*",
           "tokenGoogle": this.state.token,
           "Content-Type":"application/json"
         }
       })
-      this.getAll();
+      await this.timeout(250);
+      return this.getAll();
     }
 
     checkWatching(issue) {
@@ -145,8 +149,9 @@ export class IssueIndex extends Component {
           }
         }
       )
-      
+
       if(!amI) {
+        
         return (
           <td>{<img id = "watch" src = {watch} alt = "Watch" onClick = {() => this.watchIssue(issue.id)}/>}</td>
         )
