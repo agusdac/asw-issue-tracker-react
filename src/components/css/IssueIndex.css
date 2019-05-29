@@ -6,6 +6,10 @@
     margin-top: 10px;
   }
   
+.perfil_image:hover {
+    cursor: pointer;
+}
+  
   .perfil_image_table {
     border-radius: 50%;
     max-width: 10%;  

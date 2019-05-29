@@ -25,10 +25,8 @@ export class Sidebar extends Component {
   render() {
     return (
       <StickyContainer>
-      <div className = "sidebar" >
         <Link to={'/'} onClick = {() => IssueIndex.getAll()}> Home </Link>
         {this.conditionalLogin(this.state.logged)}
-      </div>
       </StickyContainer>
     )
   }
@@ -38,7 +36,7 @@ export class Sidebar extends Component {
       if (localStorage.getItem('logged') === "true" && boolean === "false"){
         this.setState({ image : localStorage.getItem('imageurl'),
         name: localStorage.getItem('name'), 
-        token : localStorage.getItem('googleId'), 
+        token : localStorage.getItem('uid'), 
         email : localStorage.getItem('email'), 
         logged : localStorage.getItem('logged'),
         userId : localStorage.getItem('userId')})
@@ -55,22 +53,29 @@ export class Sidebar extends Component {
       else 
           return (
               <div>
-                <img src = {this.state.image} alt = "user" className = "perfil_image"/>
-                Signed in as <strong>{this.state.name}</strong>
+                <img src = {this.state.image} alt = "user" className = "perfil_image" onClick = {()=> this.alertApiKey()}/>
+                <br></br>
+                <p>Signed in as <strong>{this.state.name}</strong></p>
+                <br></br>
                 <GoogleLogout
                 clientId="486935814636-taagm7nb8qn8m52urkblbd0e3llv4f88.apps.googleusercontent.com"
                 buttonText="Logout"
                 onLogoutSuccess={this.logout}
+                onFailure={this.logout}
                 >
                 </GoogleLogout>
             </div>
           )
   }
   
+  alertApiKey = () => {
+    alert('Esta es tu API KEY: ' + localStorage.getItem('uid'))
+  }
+  
   logout = () => {
       
       //ahora es clear porque nadie usa localStorage, si alguien usa localStorage cambiar este clear por lo que le pertoca
-      this.props.changeLogged(false)
+      //this.props.changeLogged(false)
       localStorage.clear()
       this.setState({logged : "false"})
       
