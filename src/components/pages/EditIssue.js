@@ -30,6 +30,7 @@ export class EditIssue extends Component {
       kind:'',
       priority:'',
       asignee:'',
+      assigneeList: []
   
     }
   }
@@ -39,11 +40,31 @@ export class EditIssue extends Component {
     .then(res => {
       console.log(res.data);
       console.log("testing kinds// kind value of issue = " + res.data.kind)
-      console.log("kinds access using res.data.kind as key" + kinds)
-
       const issue = res.data;
       this.setState({ issue });
     })
+  }
+
+  getUsers() {
+    var url = 'https://issue-tracker-asw-ruby.herokuapp.com/users.json';
+    axios.get(url)
+    .then(res => {
+      var assigneeListRes = res.data.map((user) => {
+        return (
+          {
+            value: String(user.id),
+            label: user.name,
+          }
+        )
+      })
+      assigneeListRes.push({
+        value: "no assignee",
+        label: "No assignee"
+      }
+      )
+      this.setState({assigneeList:assigneeListRes})
+      console.log(this.state.assigneeList)
+    }).then(this.organizeSelects())
   }
 
   modifyIssue() {
@@ -84,10 +105,26 @@ export class EditIssue extends Component {
     }
   }
 
+  organizeSelects() {
+    var i=0;
+    console.log("going to organize selects... kinds length is " + kinds.length + " and i is " + i);
+    for(var i=0; i<kinds.lengh; i++){
+      
+      console.log('inside for');
+
+      // console.log("current kind is " + kinds[i].value + "and label" + kinds[i].label)
+      // if(kinds[i].value == this.state.issue.kind) {
+      //   console.log("found kind! index is " + i);  
+      //   //return i;
+      // }
+    }
+  }
+
 
   componentDidMount() {
     this.getIssue();
-    console.log("testing kinds// kind value of issue = " + this.state.issue.kind)
+    this.getUsers();
+    //console.log("testing kinds// kind value of issue = " + this.state.issue.kind)
   }
 
   handleTitle(event) {

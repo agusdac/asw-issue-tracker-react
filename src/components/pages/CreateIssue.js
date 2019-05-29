@@ -95,14 +95,12 @@ export class EditIssue extends Component {
       }
       )
       this.setState({assigneeList:assigneeListRes})
-      
       console.log(this.state.assigneeList)
     })
   }
 
   componentDidMount() {
     this.getUsers();
-    // this.organizeAss();
   }
 
   handleTitle(event) {
