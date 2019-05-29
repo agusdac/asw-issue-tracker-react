@@ -5,35 +5,52 @@ import Sidebar from '../Sidebar';
 
 export class Issue extends Component {
 
-  state = {
-    issue:{}
+  constructor() {
+    super();
+    this.state = {
+      issue: {},
+      value: '',
+      token:''
+    }
+  }
+
+  getLocalStorage() {
+    const tokenlocal = localStorage.getItem('uid');
+    console.log("Local Storage token" + tokenlocal);
+    this.setState({token: tokenlocal}, () => console.log('State: ' + this.state.token));
   }
 
   componentDidMount() {
     axios.get(`https://issue-tracker-asw-ruby.herokuapp.com/issues/${this.props.match.params.id}.json`)
       .then(res => {
-        const issue = res.data;
-        this.setState({ issue });
+        const aux = res.data;
+        this.setState({ issue:aux });
       })
 
-    console.log(localStorage.getItem('uid'));
+      this.getLocalStorage();
   }
 
   handleSubmit(event){
-    var text = event.target.value;
-    console.log(localStorage.getItem('uid'));
-    console.log(text);
+    event.preventDefault();
     var url = `https://issue-tracker-asw-ruby.herokuapp.com/issues/${this.props.match.params.id}/comments.json`;
     console.log(url);
     axios.post(url, {
-      content: "hola"
-    },{
+      content: this.state.value
+    }, {
       headers: {
-        "accept" : "*/*",
-        "tokenGoogle":localStorage.getItem('uid'),
+        "accept":"*/*",
+        "tokenGoogle": localStorage.getItem('uid'),
         "Content-Type":"application/json"
       }
-    })
+    } ).then(res => {
+      console.log('Result: ' + res.data);
+    }).catch((error)=>{
+       console.log('Error: ' + error);
+    });
+  }
+
+  handleChange(event){
+    this.setState({value: event.target.value});
   }
 
   render() {
@@ -60,7 +77,7 @@ export class Issue extends Component {
           <p>{comment.content} - {moment(comment.created_at).fromNow()}</p>
         ) : null}
         <form onSubmit={this.handleSubmit.bind(this)}>
-            <textarea/>
+            <textarea value={this.state.value} onChange={this.handleChange.bind(this)}/>
           <input type="submit" value="Send" />
         </form>
       </div>
