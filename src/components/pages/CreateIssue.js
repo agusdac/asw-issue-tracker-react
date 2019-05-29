@@ -97,19 +97,7 @@ export class EditIssue extends Component {
       this.setState({assigneeList:assigneeListRes})
       
       console.log(this.state.assigneeList)
-      // const assignee_list_json_axios = res.data;
-      //  //alert(JSON.stringify(res.data[0].votes.length))
-
-      // console.log(assignee_list_json_axios);
-      // this.setState({ 
-      //   assignee_list_json: assignee_list_json_axios });
-      // console.log(this.state.assignee_list_json);
-    }).then(this.organizeAss) 
-  }
-  
-
-  organizeAss() {
-
+    })
   }
 
   componentDidMount() {
