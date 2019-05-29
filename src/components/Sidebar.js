@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import IssueIndex from './IssueIndex';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import axios from 'axios';
+import { StickyContainer, Sticky } from 'react-sticky';
 
 
 
@@ -24,10 +25,12 @@ export class Sidebar extends Component {
   
   render() {
     return (
+      <StickyContainer>
       <div className = "sidebar" >
         <Link to={'/'} onClick = {() => IssueIndex.getAll()}> Home </Link>
         {this.conditionalLogin(this.state.logged)}
       </div>
+      </StickyContainer>
     )
   }
   
