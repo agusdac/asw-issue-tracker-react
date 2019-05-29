@@ -250,6 +250,9 @@ export class Issue extends Component {
             </span>
             }
           </p>
+          <span id = "newIssue">
+            <Link to={'/issue/'+this.state.issue.id+'/edit' }> Edit Issue</Link>
+          </span>
           <hr></hr>
           <p>Comments ({undefined !== this.state.issue.comments ? this.state.issue.comments.length : 0})</p>
           {undefined !== this.state.issue.comments ? this.state.issue.comments.map(comment =>

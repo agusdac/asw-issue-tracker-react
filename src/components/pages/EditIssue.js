@@ -35,17 +35,15 @@ export class EditIssue extends Component {
     }
   }
   
-  getIssue() {
-    axios.get(`https://issue-tracker-asw-ruby.herokuapp.com/issues/${this.props.match.params.id}.json`)
-    .then(res => {
-      console.log(res.data);
-      console.log("testing kinds// kind value of issue = " + res.data.kind)
-      const issue = res.data;
-      this.setState({ issue });
-    })
-  }
+  async getIssue() {
+    var res = await axios.get(`https://issue-tracker-asw-ruby.herokuapp.com/issues/${this.props.match.params.id}.json`);
+    console.log(res.data);
+    console.log("testing kinds// kind value of issue = " + res.data.kind)
+    const issue = res.data;
+    this.setState({ issue }); 
+  } 
 
-  getUsers() {
+  async getUsers() {
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/users.json';
     axios.get(url)
     .then(res => {
@@ -55,17 +53,19 @@ export class EditIssue extends Component {
             value: String(user.id),
             label: user.name,
           }
-        )
-      })
-      assigneeListRes.push({
+        )  
+      }) 
+      assigneeListRes.push({ 
         value: "no assignee",
         label: "No assignee"
       }
       )
       this.setState({assigneeList:assigneeListRes})
-      console.log(this.state.assigneeList)
-    }).then(this.organizeSelects())
+      console.log("assigneeList from state");
+      console.log(this.state.assigneeList);
+    })//.then(this.organizeSelects())
   }
+
 
   modifyIssue() {
     console.log(localStorage.getItem('uid'));
@@ -105,26 +105,37 @@ export class EditIssue extends Component {
     }
   }
 
-  organizeSelects() {
-    var i=0;
-    console.log("going to organize selects... kinds length is " + kinds.length + " and i is " + i);
-    for(var i=0; i<kinds.lengh; i++){
-      
-      console.log('inside for');
-
-      // console.log("current kind is " + kinds[i].value + "and label" + kinds[i].label)
-      // if(kinds[i].value == this.state.issue.kind) {
-      //   console.log("found kind! index is " + i);  
-      //   //return i;
-      // }
+  organizeSelects() { 
+    
+    var kind = this.state.issue.kind; 
+    var priority = this.state.issue.priority;
+    var assignee = this.state.issue.assignee;
+    console.log("testing assignee list before doing fors IS ");
+    console.log(this.state.assigneeList);
+  
+    for(var i=0; i<kinds.length; i++){ 
+      if (kind == kinds[i].value) {
+        this.setState({priority:priorities[i]})
+      } 
     }
+    for(var i=0; i<priorities.length; i++){ 
+      if (priority == priorities[i].value) {
+        this.setState({kind:kinds[i]})
+      } 
+    }
+    console.log("assigneeList from state in organize");
+    console.log(this.state.assigneeList);
   }
 
 
-  componentDidMount() {
-    this.getIssue();
-    this.getUsers();
-    //console.log("testing kinds// kind value of issue = " + this.state.issue.kind)
+  componentDidMount() {//nope, te paso foto por whats. sigue siendo undefined
+    this.prueba();
+  }
+
+  async prueba() {
+    await this.getIssue();
+    await this.getUsers();
+    await this.organizeSelects();
   }
 
   handleTitle(event) {
@@ -176,7 +187,7 @@ export class EditIssue extends Component {
             <div className="row">
               <label for="issue_kind">Kind </label>
               <Select
-                value={kinds[this.state.issue.kind]}
+                value={this.state.kind}
                 onChange={this.handleKind}
                 options={kinds}
               />
@@ -184,7 +195,7 @@ export class EditIssue extends Component {
             <div className="row">
               <label for="issue_priority">Priority </label>
               <Select
-                //value={selectedOption}
+                value={this.state.priority}
                 onChange={this.handlePriority}
                 options={priorities}
               />
