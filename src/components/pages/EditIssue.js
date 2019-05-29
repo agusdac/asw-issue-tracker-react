@@ -37,12 +37,16 @@ export class EditIssue extends Component {
   getIssue() {
     axios.get(`https://issue-tracker-asw-ruby.herokuapp.com/issues/${this.props.match.params.id}.json`)
     .then(res => {
+      console.log(res.data);
+      console.log("testing kinds// kind value of issue = " + res.data.kind)
+      console.log("kinds access using res.data.kind as key" + kinds)
+
       const issue = res.data;
       this.setState({ issue });
     })
   }
 
-  createIssue() {
+  modifyIssue() {
     console.log(localStorage.getItem('uid'));
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
     if(this.state.assignee!=='') {
@@ -82,7 +86,8 @@ export class EditIssue extends Component {
 
 
   componentDidMount() {
-    
+    this.getIssue();
+    console.log("testing kinds// kind value of issue = " + this.state.issue.kind)
   }
 
   handleTitle(event) {
@@ -117,44 +122,50 @@ export class EditIssue extends Component {
         <div className = "body">
           <div className = "header">
             <h1>
-              Create a new Issue
+              Edit Issue #{this.state.issue.id}
             </h1>
           </div>
           <p>
             <div className="row">
               <label for="issue_title">Title </label>
-              <input id="issue_title" class="form-control" type="text" name="title" value={this.state.title} 
+              <input id="issue_title" class="form-control" type="text" name="title" value={this.state.issue.title} 
               onChange={this.handleTitle.bind(this)}/>
             </div>
             <div className="row">
               <label for="issue_description">Description </label>
-              <input id="issue_description" class="form-control" type="text" name="description" value={this.state.description} 
+              <input id="issue_description" class="form-control" type="text" name="description" value={this.state.issue.description} 
               onChange={this.handleDescription.bind(this)}/>
             </div>
             <div className="row">
               <label for="issue_kind">Kind </label>
-              <input id="issue_kind" class="form-control" type="text" name="kind" value={this.state.kind} 
-              onChange={this.handleKind.bind(this)}/>
+              <Select
+                value={kinds[this.state.issue.kind]}
+                onChange={this.handleKind}
+                options={kinds}
+              />
             </div>
             <div className="row">
               <label for="issue_priority">Priority </label>
               <Select
                 //value={selectedOption}
-                //onChange={this.handleChange}
+                onChange={this.handlePriority}
                 options={priorities}
               />
-              <input id="issue_priority" class="form-control" type="text" name="priority" value={this.state.priority} 
-              onChange={this.handlePriority.bind(this)}/>
             </div>
             <div className="row">
 
               <label for="issue_assignee">Assignee </label>
-              <input id="issue_assignee" class="form-control" type="text" name="assignee" value={this.state.assignee} 
-              onChange={this.handleAssignee.bind(this)}/>
+
+              <Select
+                //value={selectedOption}
+                onChange={this.handleAssignee}
+                options={this.state.assigneeList}
+              />
+
             </div>
             <div className="row">
               <button
-                onClick={this.createIssue.bind(this)}
+                onClick={this.modifyIssue.bind(this)}
                 title="Create Issue"
                 color="#841584">Create Issue</button>
             </div>

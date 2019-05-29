@@ -177,8 +177,6 @@ export class EditIssue extends Component {
                 onChange={this.handleKind}
                 options={kinds}
               />
-              {/* <input id="issue_kind" class="form-control" type="text" name="kind" value={this.state.kind} 
-              onChange={this.handleKind.bind(this)}/> */}
             </div>
             <div className="row">
               <label for="issue_priority">Priority </label>
@@ -187,8 +185,6 @@ export class EditIssue extends Component {
                 onChange={this.handlePriority}
                 options={priorities}
               />
-              {/* <input id="issue_priority" class="form-control" type="text" name="priority" value={this.state.priority} 
-              onChange={this.handlePriority.bind(this)}/> */}
             </div>
             <div className="row">
 
@@ -199,9 +195,6 @@ export class EditIssue extends Component {
                 onChange={this.handleAssignee}
                 options={this.state.assigneeList}
               />
-              
-              {/* <input id="issue_assignee" class="form-control" type="text" name="assignee" value={this.state.assignee} 
-              onChange={this.handleAssignee.bind(this)}/> */}
             </div>
             <div className="row">
               <button
