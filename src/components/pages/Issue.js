@@ -260,7 +260,10 @@ export class Issue extends Component {
               {
                 (this.state.userId == comment.user_id) ? 
                 <span>
-                  <Link to={`/issue/${this.state.issue.id}/comments/${comment.id}/edit`}>Edit</Link> - 
+                  <Link to={{
+                    pathname: `/issue/${this.state.issue.id}/comments/${comment.id}/edit`,
+                    state: { content: comment.content }
+                   }} >Edit</Link> - 
                   <span className="raul-like-a-link" onClick={() => this.deleteComment(comment.id)} >Delete</span>
                 </span>
                 : 

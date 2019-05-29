@@ -120,13 +120,18 @@ export class IssueIndex extends Component {
       }
 
     watchIssue(id) {
-      axios.post("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches.json",{
+      axios.post("https://issue-tracker-asw-ruby.herokuapp.com/issues/" + id + "/watches.json",{},{
         headers: {
           "accept":"*/*",
           "tokenGoogle": this.state.token,
           "Content-Type":"application/json"
         }
-      })
+      }).then(res => {
+        window.location.reload();
+      }).catch(error => {
+        console.log(error);
+        window.location.reload();
+      });
       this.getAll();
     }
 
