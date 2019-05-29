@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import moment from 'moment';
 import Sidebar from '../Sidebar';
+import { Link } from 'react-router-dom';
+
 
 export class Issue extends Component {
 

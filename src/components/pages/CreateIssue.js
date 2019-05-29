@@ -28,14 +28,14 @@ export class EditIssue extends Component {
       kind:'',
       priority:'',
       assignee:'',
-      assignee_list:'',
-      assignee_list_json:'',
+      assigneeList:[],
     }
   }
   
 
   createIssue() {
     console.log(localStorage.getItem('uid'));
+    console.log(this.state.assigneeList);
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
     if(this.state.assignee!=='') {
       axios.post(url, {
@@ -72,17 +72,37 @@ export class EditIssue extends Component {
     }
   }
 
+  
+
   getUsers() {
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/users.json';
     axios.get(url)
     .then(res => {
-      const assignee_list_json_axios = res.data;
-       //alert(JSON.stringify(res.data[0].votes.length))
 
-      console.log(assignee_list_json_axios);
-      this.setState({ 
-        assignee_list_json: assignee_list_json_axios });
-      console.log(this.state.assignee_list_json);
+      var assigneeListRes = res.data.map((user) => {
+        return (
+          {
+            value: String(user.id),
+            label: user.name,
+          }
+        )
+      })
+      assigneeListRes.push({
+        value: "asdf",
+        label: "No assignee"
+      }
+      )
+      this.setState({assigneeList:assigneeListRes})
+      
+      console.log(this.state.assigneeList)
+      console.log(kinds)
+      // const assignee_list_json_axios = res.data;
+      //  //alert(JSON.stringify(res.data[0].votes.length))
+
+      // console.log(assignee_list_json_axios);
+      // this.setState({ 
+      //   assignee_list_json: assignee_list_json_axios });
+      // console.log(this.state.assignee_list_json);
     }).then(this.organizeAss) 
   }
   
@@ -116,11 +136,7 @@ export class EditIssue extends Component {
     this.setState({ assignee });
     console.log(`Option selected:`, assignee.value);
   }
-  // handleKind(event) {
-  //   console.log(event.target.value);
 
-  //   this.setState({kind: event.target.value})
-  // }  
   handlePriority(event) {
     this.setState({priority: event.target.value})
   }
@@ -180,7 +196,7 @@ export class EditIssue extends Component {
               <Select
                 //value={selectedOption}
                 onChange={this.handlePriority}
-                //options={this.state.assignee_list_json}
+                options={this.state.assigneeList}
               />
               
               {/* <input id="issue_assignee" class="form-control" type="text" name="assignee" value={this.state.assignee} 
