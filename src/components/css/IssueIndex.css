@@ -470,6 +470,8 @@
     border-bottom-left-radius: 3.01px;
     border-top-right-radius: 3.01px;
     border-bottom-right-radius: 3.01px;
+    margin: 3px;
+    cursor: pointer;
 }
 
 .raul-button-primary2{
@@ -599,4 +601,15 @@
 
 .raul-like-a-link{
   cursor: pointer;
+}
+
+.raul-comment{
+  margin: 2px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid rgba(0,0,0,.2);
+}
+
+.raul-body{
+  padding-top: 55px;
 }
