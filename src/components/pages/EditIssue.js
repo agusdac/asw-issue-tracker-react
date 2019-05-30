@@ -31,6 +31,7 @@ export class EditIssue extends Component {
       kind:'',
       priority:'',
       assignee:'',
+      //status:'',
       assigneeList: []
   
     }
@@ -224,11 +225,18 @@ export class EditIssue extends Component {
                         onChange={this.handleAssignee}
                         options={this.state.assigneeList}
                       />  
-                    
                     </td>
                   </tr>
-
-
+                  {/* <tr className="adams-tr">
+                    <td className="adams-label"><label for="issue_assignee">Status </label></td>
+                    <td className="adams-field">
+                      <Select
+                        value={this.state.status}
+                        onChange={this.handleStatus}
+                        options={statuses}
+                      />  
+                    </td>
+                  </tr> */}
                 </tbody>
           </table>
             <div className="row">
