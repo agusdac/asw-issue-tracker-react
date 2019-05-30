@@ -26,7 +26,7 @@ export class Issue extends Component {
        userId:localStorage.getItem('userId'),
        name: localStorage.getItem('name'),
        logged : localStorage.getItem('logged'),
-      }, () => console.log('State/Token: ' + this.state.token + 'State/UserId: ' + this.state.userId));
+      }, () => console.log('State/Token: ' + this.state.token + 'State/UserId: ' + this.state.userId)); //wow visca la seguretat
   }
 
   componentDidMount() {
@@ -250,9 +250,8 @@ export class Issue extends Component {
             </span>
             }
           </p>
-          <span id = "newIssue">
-            <Link to={'/issue/'+this.state.issue.id+'/edit' }> Edit Issue</Link>
-          </span>
+          {this.state.userId==this.state.issue.user_id ? <span id = "newIssue"><Link to={'/issue/'+this.state.issue.id+'/edit' }> Edit Issue </Link></span> : <td></td>}
+          
           <hr></hr>
           <p>Comments ({undefined !== this.state.issue.comments ? this.state.issue.comments.length : 0})</p>
           {undefined !== this.state.issue.comments ? this.state.issue.comments.map(comment =>
