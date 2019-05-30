@@ -147,44 +147,44 @@ export class EditIssue extends Component {
             </h1>
           </div>
           <div>
-          <table className = "adams-table">
-              <tbody>
-          
-                <tr className="adams-tr">
-                  <td className="adams-label"><label for="issue_title">Title </label></td>
-                  <td className="adams-field"><input className="adams-input"  type="text" name="title" value={this.state.title} //id="issue_title"
-                  onChange={this.handleTitle.bind(this)}/></td>
-                </tr>
-                <tr className="adams-tr">
-                  <td className="adams-label"><label for="issue_description">Description </label></td>
-                  <td className="adams-field"><input className="adams-input"  type="text" name="description" value={this.state.description} 
-                  onChange={this.handleDescription.bind(this)}/></td>
-                </tr>
-                <tr className="adams-tr">
-                  <td className="adams-label"><label for="issue_kind">Kind </label></td>
-                  <td className="adams-field"><Select
-                    onChange={this.handleKind}
-                    options={kinds}
-                  /></td>
-                </tr>
-                <tr className="adams-tr">
-                  <td className="adams-label"><label for="issue_priority">Priority </label></td>
-                  <td className="adams-field"><Select
-                    //value={selectedOption}
-                    onChange={this.handlePriority}
-                    options={priorities}
-                  /></td>
-                </tr>
-                <tr className="adams-tr">
-                  <td className="adams-label"><label for="issue_assignee">Assignee </label></td>
-                  <td className="adams-field"><Select
-  //value={selectedOption}
-                    onChange={this.handleAssignee}
-                    options={this.state.assigneeList}
-                  /></td>
-                </tr>
-            </tbody>
-          </table>
+            <table className = "adams-table">
+                <tbody>
+            
+                  <tr className="adams-tr">
+                    <td className="adams-label"><label for="issue_title">Title </label></td>
+                    <td className="adams-field"><input className="adams-input"  type="text" name="title" value={this.state.title} //id="issue_title"
+                    onChange={this.handleTitle.bind(this)}/></td>
+                  </tr>
+                  <tr className="adams-tr">
+                    <td className="adams-label"><label for="issue_description">Description </label></td>
+                    <td className="adams-field"><input className="adams-input"  type="text" name="description" value={this.state.description} 
+                    onChange={this.handleDescription.bind(this)}/></td>
+                  </tr>
+                  <tr className="adams-tr">
+                    <td className="adams-label"><label for="issue_kind">Kind </label></td>
+                    <td className="adams-field"><Select
+                      onChange={this.handleKind}
+                      options={kinds}
+                    /></td>
+                  </tr>
+                  <tr className="adams-tr">
+                    <td className="adams-label"><label for="issue_priority">Priority </label></td>
+                    <td className="adams-field"><Select
+                    
+                      onChange={this.handlePriority}
+                      options={priorities}
+                    /></td>
+                  </tr>
+                  <tr className="adams-tr">
+                    <td className="adams-label"><label for="issue_assignee">Assignee </label></td>
+                    <td className="adams-field"><Select
+
+                      onChange={this.handleAssignee}
+                      options={this.state.assigneeList}
+                    /></td>
+                  </tr>
+              </tbody>
+            </table>
             <div className="row">
               <button id = "newIssue"
                 onClick={this.createIssue.bind(this)}

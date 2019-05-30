@@ -43,8 +43,9 @@ export class EditIssue extends Component {
     const issue = res.data;
     this.setState({ issue });
     this.setState({ title:issue.title });
-    this.setState({ description:issue.description }) 
-    this.setState({ id:issue.id })
+    this.setState({ description:issue.description }); 
+    this.setState({ id:issue.id });
+    console.log("assignee is" + res.data.assignee);
   } 
 
   async getUsers() {
@@ -114,10 +115,10 @@ export class EditIssue extends Component {
     
     var kind = this.state.issue.kind; 
     var priority = this.state.issue.priority;
-    var assignee = this.state.issue.assignee.id;
+    
     console.log("this.state.issue" + this.state.issue);
-    console.log("this.state.issue.assignee" + this.state.issue.assignee);
-    console.log("this.state.issue.assignee.id" + this.state.issue.assignee.id);
+    console.log("this.state.issue.assignee " + this.state.issue.assignee);
+    //console.log("this.state.issue.assignee.id" + this.state.issue.assignee.id);
     console.log("testing assignee list before doing fors IS ");
     console.log(this.state.assigneeList);
   
@@ -133,14 +134,26 @@ export class EditIssue extends Component {
     }
     console.log("assigneeList from state in organize");
     console.log(this.state.assigneeList);
-    for(var i=0; i<this.state.assigneeList.length; i++){ 
-      if (assignee == this.state.assigneeList[i].value) {
-        console.log("existing assignee is " + this.state.assigneeList[i].label);
-        var aux = this.state.assigneeList[i];
-        console.log(aux.label);
-        this.setState({assignee:aux});
-        console.log("state.assignee is " + this.state.assignee.label);
-      } 
+    if (this.state.assignee!='') {
+      console.log("assignee is not null")
+      var assignee = this.state.issue.assignee.id;
+      for(var i=0; i<this.state.assigneeList.length; i++){ 
+        if (assignee == this.state.assigneeList[i].value) {
+          console.log("existing assignee is " + this.state.assigneeList[i].label);
+          var aux = this.state.assigneeList[i];
+          console.log(aux.label);
+          this.setState({assignee:aux});
+          console.log("state.assignee is " + this.state.assignee.label);
+        } 
+      }
+    }
+    else{
+      console.log("assigneeList is " + this.state.assigneeList);
+      console.log("and assignee list length is " + this.state.assigneeList.length);
+      console.log("elem at assigneeList[length-1] is " + this.state.assigneeList[this.state.assigneeList.length-1].value)
+      this.setState({ assignee: this.state.assigneeList[this.state.assigneeList.length-1] });
+      console.log("assignee at state when assignee is null " + this.state.assignee);
+
     }
   }
 
@@ -190,51 +203,63 @@ export class EditIssue extends Component {
               Edit Issue #{this.state.id}
             </h1>
           </div>
-          <p>
-            <div className="row">
-              <label for="issue_title">Title </label>
-              <input id="issue_title" class="form-control" type="text" name="title" value={this.state.title} 
-              onChange={this.handleTitle.bind(this)}/>
-            </div>
-            <div className="row">
-              <label for="issue_description">Description </label>
-              <input id="issue_description" class="form-control" type="text" name="description" value={this.state.description} 
-              onChange={this.handleDescription.bind(this)}/>
-            </div>
-            <div className="row">
-              <label for="issue_kind">Kind </label>
-              <Select
-                value={this.state.kind}
-                onChange={this.handleKind}
-                options={kinds}
-              />
-            </div>
-            <div className="row">
-              <label for="issue_priority">Priority </label>
-              <Select
-                value={this.state.priority}
-                onChange={this.handlePriority}
-                options={priorities}
-              />
-            </div>
-            <div className="row">
+          <div>
+          <table className = "adams-table">
+                <tbody>
+                  <tr className="adams-tr">
+                    <td className="adams-label"><label for="issue_title">Title </label></td>
+                    <td className="adams-field">
+                      <input className="adams-input" type="text" name="title" value={this.state.title} 
+                      onChange={this.handleTitle.bind(this)}/>
+                    </td>
+                  </tr>
+                  <tr className="adams-tr">
+                    <td className="adams-label"><label for="issue_description">Description </label></td>
+                    <td className="adams-field"><input className="adams-input"  type="text" name="description" value={this.state.description} 
+                    onChange={this.handleDescription.bind(this)}/></td>
+                  </tr>
+                  <tr className="adams-tr">
+                    <td className="adams-label"><label for="issue_kind">Kind </label></td>
+                    <td className="adams-field">
+                      <Select
+                        value={this.state.kind}
+                        onChange={this.handleKind}
+                        options={kinds}
+                      />
+                    </td>
+                  </tr>
+                  <tr className="adams-tr">
+                    <td className="adams-label"><label for="issue_priority">Priority </label></td>
+                    <td className="adams-field">
+                      <Select
+                        value={this.state.priority}
+                        onChange={this.handlePriority}
+                        options={priorities}
+                      />
+                    </td>
+                  </tr>
+                  <tr className="adams-tr">
+                    <td className="adams-label"><label for="issue_assignee">Assignee </label></td>
+                    <td className="adams-field">
+                      <Select
+                        value={this.state.assignee}
+                        onChange={this.handleAssignee}
+                        options={this.state.assigneeList}
+                      />  
+                    
+                    </td>
+                  </tr>
 
-              <label for="issue_assignee">Assignee </label>
 
-              <Select
-                value={this.state.assignee}
-                onChange={this.handleAssignee}
-                options={this.state.assigneeList}
-              />
-
-            </div>
+                </tbody>
+          </table>
             <div className="row">
-              <button
+              <button id = "newIssue"
                 onClick={this.modifyIssue.bind(this)}
                 title="Create Issue"
                 color="#841584">Update Issue</button>
             </div>
-          </p>
+          </div>
         </div>
       </div>
     )
