@@ -250,7 +250,7 @@ export class Issue extends Component {
             </span>
             }
           </p>
-          {this.state.userId==this.state.issue.user_id ? <span id = "newIssue"><Link to={'/issue/'+this.state.issue.id+'/edit' }> Edit Issue </Link></span> : <td></td>}
+          {(this.state.logged && (this.state.userId==this.state.issue.user_id)) ? <span id = "newIssue"><Link to={'/issue/'+this.state.issue.id+'/edit' }> Edit Issue </Link></span> : <td></td>}
           
           <hr></hr>
           <p>Comments ({undefined !== this.state.issue.comments ? this.state.issue.comments.length : 0})</p>

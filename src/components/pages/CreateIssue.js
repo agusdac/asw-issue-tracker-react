@@ -3,6 +3,7 @@ import Select from 'react-select';
 import axios from 'axios';
 import Sidebar from '../Sidebar';
 
+
 const kinds = [
   { value: 'bug', label: 'Bug' },
   { value: 'enhancement', label: 'Enhancement' },
@@ -146,44 +147,46 @@ export class EditIssue extends Component {
             </h1>
           </div>
           <div>
+          <table className = "adams-table">
+              <tbody>
+          
+                <tr className="adams-tr">
+                  <td className="adams-label"><label for="issue_title">Title </label></td>
+                  <td className="adams-field"><input className="adams-input"  type="text" name="title" value={this.state.title} //id="issue_title"
+                  onChange={this.handleTitle.bind(this)}/></td>
+                </tr>
+                <tr className="adams-tr">
+                  <td className="adams-label"><label for="issue_description">Description </label></td>
+                  <td className="adams-field"><input className="adams-input"  type="text" name="description" value={this.state.description} 
+                  onChange={this.handleDescription.bind(this)}/></td>
+                </tr>
+                <tr className="adams-tr">
+                  <td className="adams-label"><label for="issue_kind">Kind </label></td>
+                  <td className="adams-field"><Select
+                    onChange={this.handleKind}
+                    options={kinds}
+                  /></td>
+                </tr>
+                <tr className="adams-tr">
+                  <td className="adams-label"><label for="issue_priority">Priority </label></td>
+                  <td className="adams-field"><Select
+                    //value={selectedOption}
+                    onChange={this.handlePriority}
+                    options={priorities}
+                  /></td>
+                </tr>
+                <tr className="adams-tr">
+                  <td className="adams-label"><label for="issue_assignee">Assignee </label></td>
+                  <td className="adams-field"><Select
+  //value={selectedOption}
+                    onChange={this.handleAssignee}
+                    options={this.state.assigneeList}
+                  /></td>
+                </tr>
+            </tbody>
+          </table>
             <div className="row">
-              <label for="issue_title">Title </label>
-              <input id="issue_title"  type="text" name="title" value={this.state.title} 
-              onChange={this.handleTitle.bind(this)}/>
-            </div>
-            <div className="row">
-              <label for="issue_description">Description </label>
-              <input id="issue_description"  type="text" name="description" value={this.state.description} 
-              onChange={this.handleDescription.bind(this)}/>
-            </div>
-            <div className="row">
-              <label for="issue_kind">Kind </label>
-              <Select
-                //value={selectedOption}
-                onChange={this.handleKind}
-                options={kinds}
-              />
-            </div>
-            <div className="row">
-              <label for="issue_priority">Priority </label>
-              <Select
-                //value={selectedOption}
-                onChange={this.handlePriority}
-                options={priorities}
-              />
-            </div>
-            <div className="row">
-
-              <label for="issue_assignee">Assignee </label>
-
-              <Select
-                //value={selectedOption}
-                onChange={this.handleAssignee}
-                options={this.state.assigneeList}
-              />
-            </div>
-            <div className="row">
-              <button
+              <button id = "newIssue"
                 onClick={this.createIssue.bind(this)}
                 title="Create Issue"
                 color="#841584">Create Issue</button>

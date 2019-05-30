@@ -1,4 +1,32 @@
 
+  .adams-table {
+    text-align:center;
+    border-spacing: 2px;
+    border-color: #ccc;
+    border-collapse: collapse;
+    width: 50%;
+    margin-bottom: 1rem;
+  }
+
+  .adams-label {
+    text-align: right;
+
+  }
+
+  .adams-field {
+    text-align:left;
+  }
+
+  .adams-input {
+    width: 100%;
+    height:120%;
+  }
+
+  .adams-tr{
+    border-top:4px solid transparent;
+     border-bottom:4px solid transparent;
+  }
+
  
  .perfil_image {
     border-radius: 50%;
