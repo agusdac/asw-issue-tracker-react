@@ -25,11 +25,12 @@ export class EditIssue extends Component {
     super();
     this.state = {
       issue: '',
+      id:'',
       title: '',
       description: '',
       kind:'',
       priority:'',
-      asignee:'',
+      assignee:'',
       assigneeList: []
   
     }
@@ -40,38 +41,42 @@ export class EditIssue extends Component {
     console.log(res.data);
     console.log("testing kinds// kind value of issue = " + res.data.kind)
     const issue = res.data;
-    this.setState({ issue }); 
+    this.setState({ issue });
+    this.setState({ title:issue.title });
+    this.setState({ description:issue.description }) 
+    this.setState({ id:issue.id })
   } 
 
   async getUsers() {
-    var url = 'https://issue-tracker-asw-ruby.herokuapp.com/users.json';
-    axios.get(url)
-    .then(res => {
-      var assigneeListRes = res.data.map((user) => {
-        return (
-          {
-            value: String(user.id),
-            label: user.name,
-          }
-        )  
-      }) 
-      assigneeListRes.push({ 
-        value: "no assignee",
-        label: "No assignee"
-      }
-      )
-      this.setState({assigneeList:assigneeListRes})
-      console.log("assigneeList from state");
-      console.log(this.state.assigneeList);
-    })//.then(this.organizeSelects())
+    var res = await axios.get ('https://issue-tracker-asw-ruby.herokuapp.com/users.json');
+
+    console.log(res.data);
+    var assigneeListRes = res.data.map((user) => {
+      return (
+        {
+          value: String(user.id),
+          label: user.name,
+        }
+      )  
+    }) 
+    assigneeListRes.push({ 
+      value: "no assignee",
+      label: "No assignee"
+    }
+    )
+    //console.log(assigneeListRes);
+    this.setState({assigneeList:assigneeListRes})
+    console.log("assigneeList from state");
+    console.log(this.state.assigneeList);
+    this.organizeSelects();
   }
 
 
   modifyIssue() {
     console.log(localStorage.getItem('uid'));
-    var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
+    var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues/' + this.state.issue.id + '.json';
     if(this.state.assignee!=='') {
-      axios.post(url, {
+      axios.put(url, {
         title: this.state.title,
         description: this.state.description,
         assignee_id: this.state.assignee.value,
@@ -87,7 +92,7 @@ export class EditIssue extends Component {
         this.props.history.push("/issue/"+res.data.id)
     })
     } else {
-      axios.post(url, {
+      axios.put(url, {
         title: this.state.title,
         description: this.state.description,
         kind: this.state.kind.value,
@@ -99,7 +104,7 @@ export class EditIssue extends Component {
           "Content-Type":"application/json"
         }
       } ).then(res => {   
-              console.log(res.data.id);
+              // console.log(res.data.id);
               this.props.history.push("/issue/"+res.data.id)
           })
     }
@@ -109,22 +114,34 @@ export class EditIssue extends Component {
     
     var kind = this.state.issue.kind; 
     var priority = this.state.issue.priority;
-    var assignee = this.state.issue.assignee;
+    var assignee = this.state.issue.assignee.id;
+    console.log("this.state.issue" + this.state.issue);
+    console.log("this.state.issue.assignee" + this.state.issue.assignee);
+    console.log("this.state.issue.assignee.id" + this.state.issue.assignee.id);
     console.log("testing assignee list before doing fors IS ");
     console.log(this.state.assigneeList);
   
     for(var i=0; i<kinds.length; i++){ 
       if (kind == kinds[i].value) {
-        this.setState({priority:priorities[i]})
+        this.setState({kind:kinds[i]})
       } 
     }
     for(var i=0; i<priorities.length; i++){ 
       if (priority == priorities[i].value) {
-        this.setState({kind:kinds[i]})
+        this.setState({priority:priorities[i]})
       } 
     }
     console.log("assigneeList from state in organize");
     console.log(this.state.assigneeList);
+    for(var i=0; i<this.state.assigneeList.length; i++){ 
+      if (assignee == this.state.assigneeList[i].value) {
+        console.log("existing assignee is " + this.state.assigneeList[i].label);
+        var aux = this.state.assigneeList[i];
+        console.log(aux.label);
+        this.setState({assignee:aux});
+        console.log("state.assignee is " + this.state.assignee.label);
+      } 
+    }
   }
 
 
@@ -135,7 +152,7 @@ export class EditIssue extends Component {
   async prueba() {
     await this.getIssue();
     await this.getUsers();
-    await this.organizeSelects();
+    //await this.organizeSelects();
   }
 
   handleTitle(event) {
@@ -152,11 +169,11 @@ export class EditIssue extends Component {
   }
   handlePriority = (priority) => {
     this.setState({ priority });
-    console.log(`Option selected:`, priority.value);
+    console.log(`priority selected:`, priority.value);
   }
   handleAssignee = (assignee) => {
     this.setState({ assignee });
-    console.log(`Option selected:`, assignee.value);
+    console.log(`assig selected:`, assignee.value);
   }
 
   render() {
@@ -170,18 +187,18 @@ export class EditIssue extends Component {
         <div className = "body">
           <div className = "header">
             <h1>
-              Edit Issue #{this.state.issue.id}
+              Edit Issue #{this.state.id}
             </h1>
           </div>
           <p>
             <div className="row">
               <label for="issue_title">Title </label>
-              <input id="issue_title" class="form-control" type="text" name="title" value={this.state.issue.title} 
+              <input id="issue_title" class="form-control" type="text" name="title" value={this.state.title} 
               onChange={this.handleTitle.bind(this)}/>
             </div>
             <div className="row">
               <label for="issue_description">Description </label>
-              <input id="issue_description" class="form-control" type="text" name="description" value={this.state.issue.description} 
+              <input id="issue_description" class="form-control" type="text" name="description" value={this.state.description} 
               onChange={this.handleDescription.bind(this)}/>
             </div>
             <div className="row">
@@ -205,7 +222,7 @@ export class EditIssue extends Component {
               <label for="issue_assignee">Assignee </label>
 
               <Select
-                //value={selectedOption}
+                value={this.state.assignee}
                 onChange={this.handleAssignee}
                 options={this.state.assigneeList}
               />
@@ -215,7 +232,7 @@ export class EditIssue extends Component {
               <button
                 onClick={this.modifyIssue.bind(this)}
                 title="Create Issue"
-                color="#841584">Create Issue</button>
+                color="#841584">Update Issue</button>
             </div>
           </p>
         </div>
