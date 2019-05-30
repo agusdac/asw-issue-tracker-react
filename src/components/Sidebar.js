@@ -83,26 +83,32 @@ export class Sidebar extends Component {
   
   responseGoogle = (response) => {
     axios.get("https://issue-tracker-asw-ruby.herokuapp.com/users.json?token="+response.googleId).then(res => {
+        console.log(res)
         if (res.data.length === 0){
             axios.post("https://issue-tracker-asw-ruby.herokuapp.com/users", {
                 name: response.profileObj.name,
                 email: response.profileObj.email,
                 imageurl: response.profileObj.imageUrl,
                 uid: response.profileObj.googleId
-            })
+            }).then(
+                axios.get("https://issue-tracker-asw-ruby.herokuapp.com/users.json?token="+response.googleId).then(res2 => {
+                    this.setState({userId: res2.data[0].id})
+                    localStorage.setItem('userId', res.data[0].id)
+            }))
         }
         localStorage.setItem('uid', response.profileObj.googleId)
         localStorage.setItem('name', response.profileObj.name)
         localStorage.setItem('email', response.profileObj.email)
         localStorage.setItem('imageurl', response.profileObj.imageUrl)
         localStorage.setItem('logged', "true")
-        localStorage.setItem('userId', res.data[0].id)
+        if (res.data.length !== 0)
+            localStorage.setItem('userId', res.data[0].id)
         this.setState({ image : response.profileObj.imageUrl,
             name: response.profileObj.name, 
             token : response.uid, 
             email : response.profileObj.email, 
-            logged : "true",
-            userId: res.data[0].id})
+            logged : "true"
+        })
             this.props.changeLogged(this.state.logged,this.state.userId,this.state.token);
     })
     
