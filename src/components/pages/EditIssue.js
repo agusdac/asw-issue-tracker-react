@@ -19,6 +19,16 @@ const priorities = [
   { value: 'blocker', label: 'Blocker' }
 ];
 
+const statuses = [
+  { value: 'open', label: 'Open' },
+  { value: 'on hold', label: 'On hold' },
+  { value: 'resolved', label: 'Resolved' },
+  { value: 'duplicate', label: 'Duplicate' },
+  { value: 'invalid', label: 'Invalid' },
+  { value: 'wontfix', label: 'Wont fix' },
+  { value: 'closed', label: 'Closed' },
+];
+
 
 export class EditIssue extends Component {
   constructor() {
@@ -31,7 +41,7 @@ export class EditIssue extends Component {
       kind:'',
       priority:'',
       assignee:'',
-      //status:'',
+      status:'',
       assigneeList: []
   
     }
@@ -78,6 +88,7 @@ export class EditIssue extends Component {
         assignee_id: this.state.assignee.value,
         kind: this.state.kind.value,
         priority: this.state.priority.value,
+        status: this.state.status.value,
       }, {
         headers: {
           "accept":"*/*",
@@ -93,6 +104,7 @@ export class EditIssue extends Component {
         description: this.state.description,
         kind: this.state.kind.value,
         priority: this.state.priority.value,
+        status: this.state.status.value,
       }, {
         headers: {
           "accept":"*/*",
@@ -110,6 +122,7 @@ export class EditIssue extends Component {
     
     var kind = this.state.issue.kind; 
     var priority = this.state.issue.priority;
+    this.setState({ status:statuses[0]});
   
     for(var i=0; i<kinds.length; i++){ 
       if (kind == kinds[i].value) {
@@ -166,6 +179,9 @@ export class EditIssue extends Component {
   }
   handleAssignee = (assignee) => {
     this.setState({ assignee });
+  }
+  handleStatus = (status) => {
+    this.setState({ status });
   }
 
   render() {
@@ -227,7 +243,7 @@ export class EditIssue extends Component {
                       />  
                     </td>
                   </tr>
-                  {/* <tr className="adams-tr">
+                  <tr className="adams-tr">
                     <td className="adams-label"><label for="issue_assignee">Status </label></td>
                     <td className="adams-field">
                       <Select
@@ -236,7 +252,7 @@ export class EditIssue extends Component {
                         options={statuses}
                       />  
                     </td>
-                  </tr> */}
+                  </tr>
                 </tbody>
           </table>
             <div className="row">
