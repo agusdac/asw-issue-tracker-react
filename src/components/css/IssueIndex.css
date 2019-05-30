@@ -27,6 +27,11 @@
      border-bottom:4px solid transparent;
   }
 
+  .adams-tr:hover{
+    background-color: #fff;
+    border-color: #fff;
+  }
+
  
  .perfil_image {
     border-radius: 50%;
