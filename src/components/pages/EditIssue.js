@@ -38,20 +38,17 @@ export class EditIssue extends Component {
   
   async getIssue() {
     var res = await axios.get(`https://issue-tracker-asw-ruby.herokuapp.com/issues/${this.props.match.params.id}.json`);
-    console.log(res.data);
-    console.log("testing kinds// kind value of issue = " + res.data.kind)
+   
     const issue = res.data;
     this.setState({ issue });
     this.setState({ title:issue.title });
     this.setState({ description:issue.description }); 
     this.setState({ id:issue.id });
-    console.log("assignee is" + res.data.assignee);
   } 
 
   async getUsers() {
     var res = await axios.get ('https://issue-tracker-asw-ruby.herokuapp.com/users.json');
 
-    console.log(res.data);
     var assigneeListRes = res.data.map((user) => {
       return (
         {
@@ -65,16 +62,13 @@ export class EditIssue extends Component {
       label: "No assignee"
     }
     )
-    //console.log(assigneeListRes);
     this.setState({assigneeList:assigneeListRes})
-    console.log("assigneeList from state");
-    console.log(this.state.assigneeList);
+    
     this.organizeSelects();
   }
 
 
   modifyIssue() {
-    console.log(localStorage.getItem('uid'));
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues/' + this.state.issue.id + '.json';
     if(this.state.assignee!=='') {
       axios.put(url, {
@@ -115,12 +109,6 @@ export class EditIssue extends Component {
     
     var kind = this.state.issue.kind; 
     var priority = this.state.issue.priority;
-    
-    console.log("this.state.issue" + this.state.issue);
-    console.log("this.state.issue.assignee " + this.state.issue.assignee);
-    //console.log("this.state.issue.assignee.id" + this.state.issue.assignee.id);
-    console.log("testing assignee list before doing fors IS ");
-    console.log(this.state.assigneeList);
   
     for(var i=0; i<kinds.length; i++){ 
       if (kind == kinds[i].value) {
@@ -132,27 +120,21 @@ export class EditIssue extends Component {
         this.setState({priority:priorities[i]})
       } 
     }
-    console.log("assigneeList from state in organize");
-    console.log(this.state.assigneeList);
+
     if (this.state.assignee!='') {
-      console.log("assignee is not null")
+  
       var assignee = this.state.issue.assignee.id;
       for(var i=0; i<this.state.assigneeList.length; i++){ 
         if (assignee == this.state.assigneeList[i].value) {
-          console.log("existing assignee is " + this.state.assigneeList[i].label);
+        
           var aux = this.state.assigneeList[i];
-          console.log(aux.label);
           this.setState({assignee:aux});
-          console.log("state.assignee is " + this.state.assignee.label);
         } 
       }
     }
     else{
-      console.log("assigneeList is " + this.state.assigneeList);
-      console.log("and assignee list length is " + this.state.assigneeList.length);
-      console.log("elem at assigneeList[length-1] is " + this.state.assigneeList[this.state.assigneeList.length-1].value)
+
       this.setState({ assignee: this.state.assigneeList[this.state.assigneeList.length-1] });
-      console.log("assignee at state when assignee is null " + this.state.assignee);
 
     }
   }
@@ -169,7 +151,6 @@ export class EditIssue extends Component {
   }
 
   handleTitle(event) {
-    console.log(event.target.value);
     this.setState({title: event.target.value})
   }  
   handleDescription(event) {
@@ -178,15 +159,12 @@ export class EditIssue extends Component {
 
   handleKind = (kind) => {
     this.setState({ kind });
-    console.log(`Option selected:`, kind.value);
   }
   handlePriority = (priority) => {
     this.setState({ priority });
-    console.log(`priority selected:`, priority.value);
   }
   handleAssignee = (assignee) => {
     this.setState({ assignee });
-    console.log(`assig selected:`, assignee.value);
   }
 
   render() {

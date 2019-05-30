@@ -35,9 +35,7 @@ export class EditIssue extends Component {
   
 
   createIssue() {
-    console.log(localStorage.getItem('uid'));
-    console.log("assignee is" + this.state.assignee.value);
-    console.log("priority is" + this.state.priority);
+    
     var url = 'https://issue-tracker-asw-ruby.herokuapp.com/issues.json';
     if(this.state.assignee.value=="no assignee") {
       axios.post(url, {
@@ -52,7 +50,6 @@ export class EditIssue extends Component {
           "Content-Type":"application/json"
         }
       } ).then(res => {  
-        console.log("post w no assignee") 
         this.props.history.push("/issue/"+res.data.id)
     })
     } else {
@@ -69,7 +66,6 @@ export class EditIssue extends Component {
           "Content-Type":"application/json"
         }
       } ).then(res => {   
-              console.log(res.data.id);
               this.props.history.push("/issue/"+res.data.id)
           })
     }
@@ -96,7 +92,6 @@ export class EditIssue extends Component {
       }
       )
       this.setState({assigneeList:assigneeListRes})
-      console.log(this.state.assigneeList)
     })
   }
 
@@ -105,7 +100,6 @@ export class EditIssue extends Component {
   }
 
   handleTitle(event) {
-    console.log(event.target.value);
     this.setState({title: event.target.value})
   }  
   handleDescription(event) {
@@ -114,18 +108,13 @@ export class EditIssue extends Component {
 
   handleKind = (kind) => {
     this.setState({ kind });
-    console.log(`Option selected:`, kind.value);
   }
   handlePriority = (priority) => {
     this.setState({ priority });
-    console.log(`Priority selected:`, priority.value);
-    console.log(`Priority in state:`, this.state.priority);
 
   }
   handleAssignee = (assignee) => {
     this.setState({ assignee: assignee });
-    console.log(`Assignee selected in state:`, this.state.assignee);
-    console.log(`Assignee selected in box:`, assignee.value);
 
   }
 
